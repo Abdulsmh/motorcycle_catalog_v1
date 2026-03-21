@@ -1,5 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { 
+  faHome, 
+  faMotorcycle, 
+  faInfoCircle, 
+  faPhone, 
+  faUserShield,
+  faLanguage,
+  faBars,
+  faTimes,
+  faCrown
+} from '@fortawesome/free-solid-svg-icons';
 
 const headerStyles = {
   backgroundColor: '#065F46',
@@ -46,7 +58,10 @@ const navLinkStyles = (isActive) => ({
   transition: 'all 0.3s ease',
   backgroundColor: isActive ? '#047857' : 'transparent',
   fontWeight: isActive ? 'bold' : 'normal',
-  fontSize: '14px'
+  fontSize: '14px',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px'
 });
 
 const adminButtonStyles = {
@@ -57,14 +72,17 @@ const adminButtonStyles = {
   color: 'white',
   transition: 'all 0.3s ease',
   fontSize: '14px',
-  fontWeight: 'bold'
+  fontWeight: 'bold',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px'
 };
 
 const mobileMenuButtonStyles = {
   background: 'none',
   border: 'none',
   color: 'white',
-  fontSize: '28px',
+  fontSize: '24px',
   cursor: 'pointer',
   padding: '5px',
   display: 'flex',
@@ -93,7 +111,11 @@ const mobileNavLinkStyles = {
   fontSize: '16px',
   fontWeight: '500',
   backgroundColor: '#047857',
-  transition: 'all 0.2s ease'
+  transition: 'all 0.2s ease',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '10px'
 };
 
 const mobileAdminButtonStyles = {
@@ -106,7 +128,11 @@ const mobileAdminButtonStyles = {
   fontSize: '16px',
   fontWeight: 'bold',
   marginTop: '5px',
-  transition: 'all 0.2s ease'
+  transition: 'all 0.2s ease',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '10px'
 };
 
 const languageButtonStyles = {
@@ -118,7 +144,10 @@ const languageButtonStyles = {
   cursor: 'pointer',
   fontSize: '14px',
   fontWeight: 'bold',
-  transition: 'all 0.3s ease'
+  transition: 'all 0.3s ease',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px'
 };
 
 const mobileLanguageButtonStyles = {
@@ -131,7 +160,11 @@ const mobileLanguageButtonStyles = {
   fontSize: '16px',
   fontWeight: 'bold',
   width: '100%',
-  marginTop: '5px'
+  marginTop: '5px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '10px'
 };
 
 function Header({ language, setLanguage }) {
@@ -149,7 +182,6 @@ function Header({ language, setLanguage }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Secret admin access - click logo 5 times to reveal admin button
   const handleLogoClick = () => {
     const newCount = logoClickCount + 1;
     setLogoClickCount(newCount);
@@ -171,10 +203,10 @@ function Header({ language, setLanguage }) {
   };
 
   const navItems = [
-    { path: '/', label_en: 'Home', label_ha: 'Gida', icon: '🏠' },
-    { path: '/catalog', label_en: 'Catalog', label_ha: 'Kataloji', icon: '🏍️' },
-    { path: '/about', label_en: 'About', label_ha: 'Game da', icon: 'ℹ️' },
-    { path: '/contact', label_en: 'Contact', label_ha: 'Tuntuɓi', icon: '📞' }
+    { path: '/', label_en: 'Home', label_ha: 'Gida', icon: faHome },
+    { path: '/catalog', label_en: 'Catalog', label_ha: 'Kataloji', icon: faMotorcycle },
+    { path: '/about', label_en: 'About', label_ha: 'Game da', icon: faInfoCircle },
+    { path: '/contact', label_en: 'Contact', label_ha: 'Tuntuɓi', icon: faPhone }
   ];
 
   const toggleLanguage = () => {
@@ -193,7 +225,8 @@ function Header({ language, setLanguage }) {
             🏍️
           </span>
           <Link to="/" style={logoStyles}>
-            {language === 'en' ? 'MotorCycleHub' : 'Cibiyar Babura'}
+            <FontAwesomeIcon icon={faMotorcycle} />
+            {language === 'en' ? ' MotorCycleHub' : ' Cibiyar Babura'}
           </Link>
         </div>
 
@@ -215,14 +248,15 @@ function Header({ language, setLanguage }) {
                 }
               }}
             >
-              {item.icon} {language === 'en' ? item.label_en : item.label_ha}
+              <FontAwesomeIcon icon={item.icon} />
+              {language === 'en' ? item.label_en : item.label_ha}
             </Link>
           ))}
           <button onClick={toggleLanguage} style={languageButtonStyles}>
-            {language === 'en' ? '🇳🇬 Hausa' : '🇬🇧 English'}
+            <FontAwesomeIcon icon={faLanguage} />
+            {language === 'en' ? ' Hausa' : ' English'}
           </button>
           
-          {/* Admin button - only visible when showAdminButton is true (desktop) */}
           {showAdminButton && (
             <Link 
               to="/admin" 
@@ -230,7 +264,8 @@ function Header({ language, setLanguage }) {
               onMouseEnter={(e) => e.target.style.backgroundColor = '#065F46'}
               onMouseLeave={(e) => e.target.style.backgroundColor = '#047857'}
             >
-              🔧 {language === 'en' ? 'Admin' : 'Admin'}
+              <FontAwesomeIcon icon={faUserShield} />
+              {language === 'en' ? ' Admin' : ' Admin'}
             </Link>
           )}
         </div>
@@ -241,7 +276,7 @@ function Header({ language, setLanguage }) {
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="mobile-menu-button"
         >
-          {isMobileMenuOpen ? '✕' : '☰'}
+          <FontAwesomeIcon icon={isMobileMenuOpen ? faTimes : faBars} />
         </button>
 
         {/* Mobile Navigation */}
@@ -256,7 +291,8 @@ function Header({ language, setLanguage }) {
                 onMouseEnter={(e) => e.target.style.backgroundColor = '#065F46'}
                 onMouseLeave={(e) => e.target.style.backgroundColor = '#047857'}
               >
-                {item.icon} {language === 'en' ? item.label_en : item.label_ha}
+                <FontAwesomeIcon icon={item.icon} />
+                {language === 'en' ? item.label_en : item.label_ha}
               </Link>
             ))}
             <button 
@@ -268,10 +304,10 @@ function Header({ language, setLanguage }) {
               onMouseEnter={(e) => e.target.style.backgroundColor = '#065F46'}
               onMouseLeave={(e) => e.target.style.backgroundColor = '#047857'}
             >
-              {language === 'en' ? '🇳🇬 Hausa' : '🇬🇧 English'}
+              <FontAwesomeIcon icon={faLanguage} />
+              {language === 'en' ? ' Hausa' : ' English'}
             </button>
             
-            {/* Admin button in mobile menu - always visible if showAdminButton is true */}
             {showAdminButton && (
               <Link 
                 to="/admin" 
@@ -280,7 +316,8 @@ function Header({ language, setLanguage }) {
                 onMouseEnter={(e) => e.target.style.backgroundColor = '#b91c1c'}
                 onMouseLeave={(e) => e.target.style.backgroundColor = '#DC2626'}
               >
-                🔧 {language === 'en' ? 'Admin Panel' : 'Admin Panel'}
+                <FontAwesomeIcon icon={faCrown} />
+                {language === 'en' ? ' Admin Panel' : ' Admin Panel'}
               </Link>
             )}
           </div>

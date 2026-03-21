@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { 
+  faLock, 
+  faArrowLeft, 
+  faKey, 
+  faShieldAlt,
+  faEye,
+  faEyeSlash
+} from '@fortawesome/free-solid-svg-icons';
 
-// Desktop styles
 const loginContainerStyles = {
   maxWidth: '400px',
   width: '90%',
@@ -16,7 +24,11 @@ const titleStyles = {
   marginBottom: '28px',
   color: '#1F2937',
   fontSize: '24px',
-  fontWeight: 'bold'
+  fontWeight: 'bold',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '12px'
 };
 
 const inputGroupStyles = {
@@ -31,9 +43,14 @@ const labelStyles = {
   fontSize: '14px'
 };
 
+const inputWrapperStyles = {
+  position: 'relative',
+  width: '100%'
+};
+
 const inputStyles = {
   width: '100%',
-  padding: '12px 16px',
+  padding: '12px 40px 12px 40px',
   border: '1px solid #E5E7EB',
   borderRadius: '12px',
   fontSize: '16px',
@@ -42,9 +59,23 @@ const inputStyles = {
   outline: 'none'
 };
 
-const inputFocusStyles = {
-  borderColor: '#065F46',
-  boxShadow: '0 0 0 3px rgba(6, 95, 70, 0.1)'
+const inputIconStyles = {
+  position: 'absolute',
+  left: '12px',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  color: '#9CA3AF',
+  fontSize: '16px'
+};
+
+const eyeIconStyles = {
+  position: 'absolute',
+  right: '12px',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  color: '#9CA3AF',
+  cursor: 'pointer',
+  fontSize: '16px'
 };
 
 const buttonStyles = {
@@ -58,7 +89,11 @@ const buttonStyles = {
   fontWeight: 'bold',
   cursor: 'pointer',
   transition: 'all 0.2s ease',
-  marginTop: '8px'
+  marginTop: '8px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '10px'
 };
 
 const errorStyles = {
@@ -68,7 +103,11 @@ const errorStyles = {
   fontSize: '14px',
   padding: '8px',
   backgroundColor: '#FEF2F2',
-  borderRadius: '8px'
+  borderRadius: '8px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '8px'
 };
 
 const infoStyles = {
@@ -78,7 +117,11 @@ const infoStyles = {
   color: '#9CA3AF',
   padding: '12px',
   backgroundColor: '#F9FAFB',
-  borderRadius: '8px'
+  borderRadius: '8px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '8px'
 };
 
 const backLinkStyles = {
@@ -93,10 +136,14 @@ const backButtonStyles = {
   cursor: 'pointer',
   fontSize: '14px',
   textDecoration: 'underline',
-  padding: '8px'
+  padding: '8px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '8px',
+  margin: '0 auto'
 };
 
-// Mobile responsive styles
 const mobileStyles = `
   @media (max-width: 640px) {
     .admin-login-container {
@@ -109,7 +156,7 @@ const mobileStyles = `
       margin-bottom: 24px !important;
     }
     .admin-login-input {
-      padding: 10px 14px !important;
+      padding: 10px 38px !important;
       font-size: 15px !important;
     }
     .admin-login-button {
@@ -123,6 +170,7 @@ function AdminLogin({ onLogin }) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
 
   const handleSubmit = (e) => {
@@ -136,7 +184,6 @@ function AdminLogin({ onLogin }) {
     setIsLoading(true);
     setError('');
     
-    // Simulate a small delay for better UX
     setTimeout(() => {
       if (password === 'ama1234') {
         onLogin(true);
@@ -157,31 +204,48 @@ function AdminLogin({ onLogin }) {
       <style>{mobileStyles}</style>
       <div className="admin-login-container" style={loginContainerStyles}>
         <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-          <span style={{ fontSize: '48px' }}>🔐</span>
+          <FontAwesomeIcon icon={faShieldAlt} style={{ fontSize: '48px', color: '#065F46' }} />
         </div>
-        <h2 className="admin-login-title" style={titleStyles}>Admin Access</h2>
+        <h2 className="admin-login-title" style={titleStyles}>
+          <FontAwesomeIcon icon={faLock} />
+          Admin Access
+        </h2>
         
         <form onSubmit={handleSubmit}>
           <div style={inputGroupStyles}>
-            <label style={labelStyles}>Enter Password</label>
-            <input
-              className="admin-login-input"
-              type="password"
-              placeholder="Enter admin password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-                setError('');
-              }}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-              style={{
-                ...inputStyles,
-                ...(isFocused ? inputFocusStyles : {})
-              }}
-              autoFocus
-              disabled={isLoading}
-            />
+            <label style={labelStyles}>
+              <FontAwesomeIcon icon={faKey} style={{ marginRight: '8px' }} />
+              Enter Password
+            </label>
+            <div style={inputWrapperStyles}>
+              <div style={inputIconStyles}>
+                <FontAwesomeIcon icon={faLock} />
+              </div>
+              <input
+                className="admin-login-input"
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Enter admin password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setError('');
+                }}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                style={{
+                  ...inputStyles,
+                  ...(isFocused ? { borderColor: '#065F46', boxShadow: '0 0 0 3px rgba(6, 95, 70, 0.1)' } : {})
+                }}
+                autoFocus
+                disabled={isLoading}
+              />
+              <div 
+                style={eyeIconStyles}
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+              </div>
+            </div>
           </div>
           
           <button 
@@ -192,23 +256,22 @@ function AdminLogin({ onLogin }) {
             onMouseLeave={(e) => e.target.style.backgroundColor = '#065F46'}
             disabled={isLoading}
           >
+            <FontAwesomeIcon icon={faKey} />
             {isLoading ? 'Verifying...' : 'Sign In'}
           </button>
           
           {error && (
             <div style={errorStyles}>
-              ⚠️ {error}
+              <FontAwesomeIcon icon={faLock} />
+              {error}
             </div>
           )}
         </form>
         
         <div style={infoStyles}>
-          <span>🔑 </span>
-          {language === 'en' ? 'Default password: ' : 'kalmar sirri ta asali: '}
-          <strong>ama1234</strong>
-          <br />
-          <span style={{ fontSize: '11px', color: '#9CA3AF' }}>
-            {language === 'en' ? '(For demo purposes)' : '(Domin dalilai na gwaji)'}
+          <FontAwesomeIcon icon={faKey} />
+          <span>
+            Default password: <strong>ama1234</strong>
           </span>
         </div>
         
@@ -219,17 +282,13 @@ function AdminLogin({ onLogin }) {
             onMouseEnter={(e) => e.target.style.color = '#047857'}
             onMouseLeave={(e) => e.target.style.color = '#065F46'}
           >
-            ← {language === 'en' ? 'Back to Catalog' : 'Koma zuwa wajen ganin kaya'}
+            <FontAwesomeIcon icon={faArrowLeft} />
+            Back to Catalog
           </button>
         </div>
       </div>
     </>
   );
 }
-
-// Add language prop support
-AdminLogin.defaultProps = {
-  language: 'en'
-};
 
 export default AdminLogin;
