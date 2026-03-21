@@ -197,8 +197,7 @@ function VehicleModal({ vehicle, isOpen, onClose, language }) {
     onClose();
   };
 
-  const currentImage = selectedColor?.images[0] || vehicle.mainImage || 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=400';
-
+  const currentImage = selectedColor?.imageUrls?.[0] || vehicle.mainImageUrl || 'https://placehold.co/400x300/065F46/white?text=Motorcycle';
   return (
     <div style={modalOverlayStyles} onClick={onClose}>
       <div style={modalContentStyles} onClick={(e) => e.stopPropagation()}>

@@ -231,24 +231,24 @@ function AdminPage() {
     }
   };
 
-  const handleDeleteMotorcycle = async (id) => {
-    if (window.confirm('Are you sure you want to delete this motorcycle?')) {
-      try {
-        setLoading(true);
-        setError(null);
-        await deleteMotorcycle(id);
-        await loadMotorcycleData();
-        alert('Motorcycle deleted successfully!');
-      } catch (err) {
-        console.error('Error deleting motorcycle:', err);
-        setError(err.message || 'Failed to delete motorcycle');
-        alert('Error deleting motorcycle. Please try again.');
-      } finally {
-        setLoading(false);
-      }
+  const handleDeleteMotorcycle = async (id, motorcycle) => {
+  if (window.confirm('Are you sure you want to delete this motorcycle?')) {
+    try {
+      setLoading(true);
+      setError(null);
+      await deleteMotorcycle(id, motorcycle); // Pass motorcycle data
+      await loadMotorcycleData();
+      await calculateStats();
+      alert('Motorcycle deleted successfully!');
+    } catch (err) {
+      console.error('Error deleting motorcycle:', err);
+      setError(err.message || 'Failed to delete motorcycle');
+      alert('Error deleting motorcycle. Please try again.');
+    } finally {
+      setLoading(false);
     }
-  };
-
+  }
+};
   const handleCopyLink = () => {
     const link = window.location.origin;
     navigator.clipboard.writeText(link);

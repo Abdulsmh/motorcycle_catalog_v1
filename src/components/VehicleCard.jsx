@@ -138,7 +138,7 @@ function VehicleCard({ vehicle, onClick, language }) {
   const firstThreeColors = colors.slice(0, 3);
   const hasMoreColors = colors.length > 3;
   const price = vehicle.price || 0;
-  const imageUrl = vehicle.mainImage || 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=400';
+  const imageUrl = vehicle.mainImage || vehicle.mainImageUrl || 'https://placehold.co/400x300/065F46/white?text=Motorcycle';
 
   return (
     <>

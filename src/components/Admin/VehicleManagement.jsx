@@ -97,10 +97,10 @@ function VehicleManagement({ vehicles, onDelete }) {
                 <td style={tdStyles}>
                   <button 
                     style={deleteButtonStyles}
-                    onClick={() => onDelete(vehicle.id)}
-                  >
+                    onClick={() => onDelete(vehicle.id, vehicle)} // Pass entire vehicle
+                    >
                     Delete
-                  </button>
+                </button>
                 </td>
               </tr>
             ))}

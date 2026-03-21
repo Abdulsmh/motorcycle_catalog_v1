@@ -1,4 +1,4 @@
-// Bridge file to export Firebase functions
+// Import from the correct path - services folder
 export { 
   loadMotorcycles, 
   addMotorcycle, 
