@@ -4,6 +4,7 @@ import AddVehicleForm from '../components/Admin/AddVehicleForm';
 import VehicleManagement from '../components/Admin/VehicleManagement';
 import { loadMotorcycles, addMotorcycle, deleteMotorcycle } from '../utils/storage';
 
+// Styles
 const containerStyles = {
   maxWidth: '1200px',
   margin: '0 auto',
@@ -11,23 +12,30 @@ const containerStyles = {
 };
 
 const headerStyles = {
-  marginBottom: '30px'
+  marginBottom: '30px',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  flexWrap: 'wrap',
+  gap: '15px'
 };
 
 const titleStyles = {
   fontSize: '28px',
-  color: '#333',
-  marginBottom: '10px'
+  color: '#1F2937',
+  marginBottom: '0'
 };
 
 const logoutButtonStyles = {
-  backgroundColor: '#666',
+  backgroundColor: '#6B7280',
   color: 'white',
-  padding: '8px 16px',
+  padding: '10px 24px',
   border: 'none',
-  borderRadius: '5px',
+  borderRadius: '8px',
   cursor: 'pointer',
-  marginBottom: '20px'
+  fontSize: '14px',
+  fontWeight: '500',
+  transition: 'all 0.3s ease'
 };
 
 // Stats card styles
@@ -41,43 +49,91 @@ const statsGridStyles = {
 const statCardStyles = {
   backgroundColor: 'white',
   padding: '20px',
-  borderRadius: '10px',
+  borderRadius: '16px',
   textAlign: 'center',
-  boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+  boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+  transition: 'transform 0.2s ease, box-shadow 0.2s ease'
 };
 
 const statNumberStyles = {
   fontSize: '32px',
   fontWeight: 'bold',
-  color: '#1a73e8',
-  marginBottom: '10px'
+  color: '#065F46',
+  marginBottom: '8px'
+};
+
+const statLabelStyles = {
+  fontSize: '14px',
+  color: '#6B7280',
+  fontWeight: '500'
 };
 
 const copyButtonStyles = {
-  marginTop: '10px',
-  padding: '5px 10px',
-  backgroundColor: '#1a73e8',
+  marginTop: '12px',
+  padding: '6px 12px',
+  backgroundColor: '#065F46',
   color: 'white',
   border: 'none',
-  borderRadius: '5px',
-  cursor: 'pointer'
+  borderRadius: '8px',
+  cursor: 'pointer',
+  fontSize: '12px',
+  fontWeight: '500',
+  transition: 'all 0.2s ease'
 };
 
 const loadingStyles = {
   textAlign: 'center',
-  padding: '40px',
-  fontSize: '18px',
+  padding: '60px 20px',
+  fontSize: '16px',
   color: '#065F46'
 };
 
 const errorStyles = {
   textAlign: 'center',
-  padding: '40px',
+  padding: '20px',
   backgroundColor: '#FEF2F2',
-  borderRadius: '10px',
+  borderRadius: '12px',
   color: '#DC2626',
-  marginBottom: '20px'
+  marginBottom: '20px',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  flexWrap: 'wrap',
+  gap: '10px'
 };
+
+const retryButtonStyles = {
+  padding: '8px 16px',
+  backgroundColor: '#DC2626',
+  color: 'white',
+  border: 'none',
+  borderRadius: '8px',
+  cursor: 'pointer',
+  fontSize: '14px',
+  fontWeight: '500'
+};
+
+// Mobile responsive styles
+const mobileStyles = `
+  @media (max-width: 768px) {
+    .admin-header {
+      flex-direction: column !important;
+      text-align: center !important;
+    }
+    .admin-title {
+      font-size: 24px !important;
+    }
+    .stats-grid {
+      gap: 12px !important;
+    }
+    .stat-card {
+      padding: 16px !important;
+    }
+    .stat-number {
+      font-size: 28px !important;
+    }
+  }
+`;
 
 function AdminPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -88,13 +144,12 @@ function AdminPage() {
     totalMotorcycles: 0,
     totalColors: 0,
     totalStock: 0,
-    recentAdditions: []
+    totalValue: 0
   });
 
   useEffect(() => {
     if (isLoggedIn) {
       loadMotorcycleData();
-      calculateStats();
     }
   }, [isLoggedIn]);
 
@@ -103,9 +158,9 @@ function AdminPage() {
       setLoading(true);
       setError(null);
       const allMotorcycles = await loadMotorcycles();
-      // Ensure we're working with an array
       const motorcycleArray = Array.isArray(allMotorcycles) ? allMotorcycles : [];
       setMotorcycles(motorcycleArray);
+      calculateStats(motorcycleArray);
       return motorcycleArray;
     } catch (err) {
       console.error('Error loading motorcycles:', err);
@@ -117,12 +172,8 @@ function AdminPage() {
     }
   };
 
-  const calculateStats = async () => {
+  const calculateStats = (motorcycleArray) => {
     try {
-      const allMotorcycles = await loadMotorcycles();
-      const motorcycleArray = Array.isArray(allMotorcycles) ? allMotorcycles : [];
-      
-      // Calculate total colors
       const totalColors = motorcycleArray.reduce((sum, bike) => {
         if (bike && bike.colors && Array.isArray(bike.colors)) {
           return sum + bike.colors.length;
@@ -130,7 +181,6 @@ function AdminPage() {
         return sum;
       }, 0);
       
-      // Calculate total stock (sum of quantities across all colors)
       const totalStock = motorcycleArray.reduce((sum, bike) => {
         if (bike && bike.colors && Array.isArray(bike.colors)) {
           const bikeStock = bike.colors.reduce((colorSum, color) => {
@@ -141,18 +191,18 @@ function AdminPage() {
         return sum;
       }, 0);
       
-      // Get recent additions (last 5)
-      const sortedByDate = [...motorcycleArray].sort((a, b) => {
-        const dateA = a.createdAt ? new Date(a.createdAt) : new Date(0);
-        const dateB = b.createdAt ? new Date(b.createdAt) : new Date(0);
-        return dateB - dateA;
-      });
+      const totalValue = motorcycleArray.reduce((sum, bike) => {
+        if (bike && bike.price) {
+          return sum + (bike.price * (bike.colors?.reduce((q, c) => q + (c.quantity || 0), 0) || 0));
+        }
+        return sum;
+      }, 0);
       
       setStats({
         totalMotorcycles: motorcycleArray.length,
         totalColors: totalColors,
         totalStock: totalStock,
-        recentAdditions: sortedByDate.slice(0, 5)
+        totalValue: totalValue
       });
     } catch (err) {
       console.error('Error calculating stats:', err);
@@ -160,7 +210,7 @@ function AdminPage() {
         totalMotorcycles: 0,
         totalColors: 0,
         totalStock: 0,
-        recentAdditions: []
+        totalValue: 0
       });
     }
   };
@@ -171,7 +221,6 @@ function AdminPage() {
       setError(null);
       await addMotorcycle(newMotorcycle, mainImage, colorImages);
       await loadMotorcycleData();
-      await calculateStats();
       alert('Motorcycle added successfully!');
     } catch (err) {
       console.error('Error adding motorcycle:', err);
@@ -189,7 +238,6 @@ function AdminPage() {
         setError(null);
         await deleteMotorcycle(id);
         await loadMotorcycleData();
-        await calculateStats();
         alert('Motorcycle deleted successfully!');
       } catch (err) {
         console.error('Error deleting motorcycle:', err);
@@ -207,86 +255,157 @@ function AdminPage() {
     alert('Catalog link copied! Share with customers.');
   };
 
+  const formatNaira = (amount) => {
+    return new Intl.NumberFormat('en-NG', {
+      style: 'currency',
+      currency: 'NGN',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(amount);
+  };
+
   if (!isLoggedIn) {
     return <AdminLogin onLogin={setIsLoggedIn} />;
   }
 
   return (
-    <div style={containerStyles}>
-      <div style={headerStyles}>
-        <h1 style={titleStyles}>Admin Dashboard - Motorcycle Catalog</h1>
-        <button 
-          style={logoutButtonStyles}
-          onClick={() => setIsLoggedIn(false)}
-        >
-          Logout
-        </button>
-      </div>
-      
-      {error && (
-        <div style={errorStyles}>
-          <strong>Error:</strong> {error}
+    <>
+      <style>{mobileStyles}</style>
+      <div style={containerStyles}>
+        {/* Header */}
+        <div className="admin-header" style={headerStyles}>
+          <h1 className="admin-title" style={titleStyles}>
+            🏍️ Admin Dashboard
+          </h1>
           <button 
-            onClick={() => {
-              setError(null);
-              loadMotorcycleData();
-              calculateStats();
-            }}
-            style={{
-              marginLeft: '10px',
-              padding: '5px 10px',
-              backgroundColor: '#065F46',
-              color: 'white',
-              border: 'none',
-              borderRadius: '5px',
-              cursor: 'pointer'
-            }}
+            style={logoutButtonStyles}
+            onClick={() => setIsLoggedIn(false)}
+            onMouseEnter={(e) => e.target.style.backgroundColor = '#4B5563'}
+            onMouseLeave={(e) => e.target.style.backgroundColor = '#6B7280'}
           >
-            Retry
+            🔓 Logout
           </button>
         </div>
-      )}
-      
-      {/* Stats Section */}
-      <div style={statsGridStyles}>
-        <div style={statCardStyles}>
-          <div style={statNumberStyles}>{stats.totalMotorcycles}</div>
-          <p>Total Motorcycles</p>
+        
+        {/* Error Display */}
+        {error && (
+          <div style={errorStyles}>
+            <span>⚠️ {error}</span>
+            <button 
+              onClick={() => {
+                setError(null);
+                loadMotorcycleData();
+              }}
+              style={retryButtonStyles}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#b91c1c'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = '#DC2626'}
+            >
+              Retry
+            </button>
+          </div>
+        )}
+        
+        {/* Stats Section */}
+        <div className="stats-grid" style={statsGridStyles}>
+          <div 
+            className="stat-card" 
+            style={statCardStyles}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-4px)';
+              e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.1)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+            }}
+          >
+            <div className="stat-number" style={statNumberStyles}>{stats.totalMotorcycles}</div>
+            <div style={statLabelStyles}>Total Motorcycles</div>
+          </div>
+          
+          <div 
+            className="stat-card" 
+            style={statCardStyles}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-4px)';
+              e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.1)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+            }}
+          >
+            <div className="stat-number" style={statNumberStyles}>{stats.totalColors}</div>
+            <div style={statLabelStyles}>Color Options</div>
+          </div>
+          
+          <div 
+            className="stat-card" 
+            style={statCardStyles}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-4px)';
+              e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.1)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+            }}
+          >
+            <div className="stat-number" style={statNumberStyles}>{stats.totalStock}</div>
+            <div style={statLabelStyles}>Total Units</div>
+          </div>
+          
+          <div 
+            className="stat-card" 
+            style={statCardStyles}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-4px)';
+              e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.1)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+            }}
+          >
+            <div className="stat-number" style={statNumberStyles}>{formatNaira(stats.totalValue)}</div>
+            <div style={statLabelStyles}>Inventory Value</div>
+          </div>
         </div>
-        <div style={statCardStyles}>
-          <div style={statNumberStyles}>{stats.totalColors}</div>
-          <p>Color Options</p>
-        </div>
-        <div style={statCardStyles}>
-          <div style={statNumberStyles}>{stats.totalStock}</div>
-          <p>Total Units in Stock</p>
-        </div>
-        <div style={statCardStyles}>
-          <div style={statNumberStyles}>📤</div>
-          <p>Share Catalog Link</p>
+        
+        {/* Share Link Card */}
+        <div style={{ ...statCardStyles, marginBottom: '30px', textAlign: 'center' }}>
+          <div style={{ fontSize: '24px', marginBottom: '8px' }}>📤</div>
+          <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>Share Your Catalog</div>
+          <div style={{ fontSize: '12px', color: '#6B7280', marginBottom: '12px' }}>
+            Share this link with customers to view your motorcycles
+          </div>
           <button 
             onClick={handleCopyLink}
             style={copyButtonStyles}
-            onMouseEnter={(e) => e.target.style.backgroundColor = '#1557b0'}
-            onMouseLeave={(e) => e.target.style.backgroundColor = '#1a73e8'}
+            onMouseEnter={(e) => e.target.style.backgroundColor = '#047857'}
+            onMouseLeave={(e) => e.target.style.backgroundColor = '#065F46'}
           >
-            Copy Link
+            📋 Copy Catalog Link
           </button>
         </div>
+        
+        {/* Loading Indicator */}
+        {loading && (
+          <div style={loadingStyles}>
+            <div>⏳ Processing...</div>
+          </div>
+        )}
+        
+        {/* Add Vehicle Form */}
+        <AddVehicleForm onAdd={handleAddMotorcycle} />
+        
+        {/* Vehicle Management Table */}
+        <VehicleManagement 
+          vehicles={motorcycles} 
+          onDelete={handleDeleteMotorcycle}
+        />
       </div>
-      
-      {loading && (
-        <div style={loadingStyles}>
-          <div>Processing...</div>
-        </div>
-      )}
-      
-      <AddVehicleForm onAdd={handleAddMotorcycle} />
-      <VehicleManagement 
-        vehicles={motorcycles} 
-        onDelete={handleDeleteMotorcycle}
-      />
-    </div>
+    </>
   );
 }
 
