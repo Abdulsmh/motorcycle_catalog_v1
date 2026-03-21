@@ -222,10 +222,10 @@ function Header({ language, setLanguage }) {
             onClick={handleLogoClick}
             title={language === 'en' ? 'Click 5 times for admin access' : 'Danna sau 5 don samun damar admin'}
           >
-            🏍️
+            <FontAwesomeIcon icon={faMotorcycle} />
           </span>
           <Link to="/" style={logoStyles}>
-            <FontAwesomeIcon icon={faMotorcycle} />
+            
             {language === 'en' ? ' MotorCycleHub' : ' Cibiyar Babura'}
           </Link>
         </div>
