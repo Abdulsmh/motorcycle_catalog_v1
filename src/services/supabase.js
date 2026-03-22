@@ -1,53 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
 
-
+// CORRECT URL - ends with .co
 const supabaseUrl = 'https://ogxsiynfxxejxftllpgp.supabase.co';
-const supabaseAnonKey = 'sb_publishable_7gVjAMYha9S30A01CGUwsw_JZM2Y9Ne';
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9neHNpeW5meHhlanhmdGxscGdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxNzU4NDYsImV4cCI6MjA4OTc1MTg0Nn0.E2rwYBRkiZ0mhYePMZY9CAXhoQ1VBQ_4PkiX2faTTgU';  // Your actual publishable key
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-// Sample initial motorcycles
-const initialMotorcycles = [
-  {
-    name: 'Haojue HJ150',
-    brand: 'Haojue',
-    price: 850000,
-    description_en: 'Reliable and fuel-efficient motorcycle perfect for Nigerian roads.',
-    description_ha: 'Babur mai ƙarfi kuma mai tanadin man fetur.',
-    main_image_url: '',
-    colors: [
-      { name: 'Red', code: '#DC2626', quantity: 5, images: [] },
-      { name: 'Black', code: '#1F2937', quantity: 8, images: [] }
-    ],
-    available: true
-  },
-  {
-    name: 'Honda CG 125',
-    brand: 'Honda',
-    price: 950000,
-    description_en: 'Legendary durability and fuel economy.',
-    description_ha: 'Shahararren ƙarfi da tanadin man fetur.',
-    main_image_url: '',
-    colors: [
-      { name: 'Black', code: '#1F2937', quantity: 10, images: [] },
-      { name: 'Red', code: '#DC2626', quantity: 6, images: [] }
-    ],
-    available: true
-  },
-  {
-    name: 'Lifan KPR 150',
-    brand: 'Lifan',
-    price: 780000,
-    description_en: 'Sporty design with excellent performance.',
-    description_ha: 'Zane mai wasa tare da kyakkyawan aiki.',
-    main_image_url: '',
-    colors: [
-      { name: 'Green', code: '#10B981', quantity: 4, images: [] },
-      { name: 'White', code: '#F3F4F6', quantity: 5, images: [] }
-    ],
-    available: true
-  }
-];
 
 // Upload image to Supabase Storage
 export const uploadImage = async (file, path) => {
@@ -78,7 +35,36 @@ export const uploadImage = async (file, path) => {
   }
 };
 
-// Initialize database with sample data
+// Sample initial motorcycles
+const initialMotorcycles = [
+  {
+    name: 'Haojue HJ150',
+    brand: 'Haojue',
+    price: 850000,
+    description_en: 'Reliable and fuel-efficient motorcycle perfect for Nigerian roads.',
+    description_ha: 'Babur mai ƙarfi kuma mai tanadin man fetur.',
+    main_image_url: '',
+    colors: [
+      { name: 'Red', code: '#DC2626', quantity: 5, images: [] },
+      { name: 'Black', code: '#1F2937', quantity: 8, images: [] }
+    ],
+    available: true
+  },
+  {
+    name: 'Honda CG 125',
+    brand: 'Honda',
+    price: 950000,
+    description_en: 'Legendary durability and fuel economy.',
+    description_ha: 'Shahararren ƙarfi da tanadin man fetur.',
+    main_image_url: '',
+    colors: [
+      { name: 'Black', code: '#1F2937', quantity: 10, images: [] },
+      { name: 'Red', code: '#DC2626', quantity: 6, images: [] }
+    ],
+    available: true
+  }
+];
+
 export const initializeDatabase = async () => {
   try {
     const { count, error } = await supabase
@@ -100,7 +86,7 @@ export const initializeDatabase = async () => {
         console.error('Insert error:', insertError);
         return false;
       }
-      console.log('Sample data added successfully!');
+      console.log('Sample data added!');
     }
     return true;
   } catch (error) {
@@ -109,7 +95,6 @@ export const initializeDatabase = async () => {
   }
 };
 
-// Load all motorcycles
 export const loadMotorcycles = async () => {
   try {
     const { data, error } = await supabase
@@ -125,16 +110,13 @@ export const loadMotorcycles = async () => {
   }
 };
 
-// Add a new motorcycle with local image upload
 export const addMotorcycle = async (motorcycle, mainImageFile, colorImageFiles) => {
   try {
-    // Upload main image from local device
     let mainImageUrl = '';
     if (mainImageFile) {
       mainImageUrl = await uploadImage(mainImageFile, `motorcycles/${Date.now()}/main`);
     }
     
-    // Upload color images from local device
     const updatedColors = await Promise.all(
       motorcycle.colors.map(async (color, index) => {
         const colorImageFile = colorImageFiles[index];
@@ -155,7 +137,7 @@ export const addMotorcycle = async (motorcycle, mainImageFile, colorImageFiles) 
     const newMotorcycle = {
       name: motorcycle.name,
       brand: motorcycle.brand,
-      price: parseInt(motorcycle.price),
+      price: parseInt(motorcycle.price) || 0,
       description_en: motorcycle.description_en || motorcycle.description || '',
       description_ha: motorcycle.description_ha || '',
       main_image_url: mainImageUrl,
@@ -176,7 +158,6 @@ export const addMotorcycle = async (motorcycle, mainImageFile, colorImageFiles) 
   }
 };
 
-// Delete a motorcycle
 export const deleteMotorcycle = async (id) => {
   try {
     const { data: motorcycle } = await supabase
@@ -216,7 +197,6 @@ export const deleteMotorcycle = async (id) => {
   }
 };
 
-// Update motorcycle availability
 export const updateAvailability = async (id, available) => {
   try {
     const { error } = await supabase
