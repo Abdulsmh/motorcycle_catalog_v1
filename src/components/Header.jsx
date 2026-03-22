@@ -10,17 +10,21 @@ import {
   faLanguage,
   faBars,
   faTimes,
-  faCrown
+  faCrown,
+  faFire,
+  faBolt
 } from '@fortawesome/free-solid-svg-icons';
 
+// Premium gradient colors - Nigerian flag inspired with luxury gold
 const headerStyles = {
-  backgroundColor: '#065F46',
+  background: 'linear-gradient(135deg, #0B3B2F 0%, #1A5D4A 50%, #0B3B2F 100%)',
   color: 'white',
   padding: '15px 0',
-  boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+  boxShadow: '0 10px 30px rgba(0,0,0,0.2), 0 1px 8px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.1)',
   position: 'sticky',
   top: 0,
-  zIndex: 100
+  zIndex: 100,
+  borderBottom: '1px solid rgba(255,215,0,0.3)'
 };
 
 const containerStyles = {
@@ -34,137 +38,168 @@ const containerStyles = {
 };
 
 const logoStyles = {
-  fontSize: '20px',
+  fontSize: '24px',
   fontWeight: 'bold',
   textDecoration: 'none',
-  color: 'white',
+  background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  backgroundClip: 'text',
   display: 'flex',
   alignItems: 'center',
-  gap: '8px'
+  gap: '12px',
+  textShadow: '0 2px 10px rgba(0,0,0,0.2)',
+  transition: 'all 0.3s ease'
+};
+
+const logoIconStyles = {
+  fontSize: '32px',
+  filter: 'drop-shadow(0 0 8px rgba(255,215,0,0.5))',
+  animation: 'pulse 2s infinite'
 };
 
 const desktopNavStyles = {
   display: 'flex',
-  gap: '15px',
+  gap: '8px',
   alignItems: 'center',
-  flexWrap: 'wrap'
+  flexWrap: 'wrap',
+  background: 'rgba(255,255,255,0.05)',
+  padding: '5px',
+  borderRadius: '50px',
+  backdropFilter: 'blur(10px)'
 };
 
 const navLinkStyles = (isActive) => ({
   textDecoration: 'none',
-  color: 'white',
-  padding: '8px 16px',
-  borderRadius: '8px',
-  transition: 'all 0.3s ease',
-  backgroundColor: isActive ? '#047857' : 'transparent',
-  fontWeight: isActive ? 'bold' : 'normal',
+  color: isActive ? '#FFD700' : 'rgba(255,255,255,0.9)',
+  padding: '10px 20px',
+  borderRadius: '40px',
+  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+  backgroundColor: isActive ? 'rgba(255,215,0,0.15)' : 'transparent',
+  fontWeight: isActive ? 'bold' : '500',
   fontSize: '14px',
   display: 'flex',
   alignItems: 'center',
-  gap: '8px'
+  gap: '8px',
+  position: 'relative',
+  overflow: 'hidden',
+  letterSpacing: '0.5px'
 });
 
 const adminButtonStyles = {
-  backgroundColor: '#047857',
-  padding: '8px 20px',
-  borderRadius: '8px',
+  background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+  padding: '10px 24px',
+  borderRadius: '40px',
   textDecoration: 'none',
-  color: 'white',
+  color: '#0B3B2F',
   transition: 'all 0.3s ease',
   fontSize: '14px',
   fontWeight: 'bold',
   display: 'flex',
   alignItems: 'center',
-  gap: '8px'
+  gap: '8px',
+  boxShadow: '0 4px 15px rgba(255,215,0,0.3)',
+  border: 'none',
+  cursor: 'pointer'
 };
 
 const mobileMenuButtonStyles = {
-  background: 'none',
-  border: 'none',
-  color: 'white',
-  fontSize: '24px',
+  background: 'rgba(255,255,255,0.1)',
+  border: '1px solid rgba(255,215,0,0.3)',
+  color: '#FFD700',
+  fontSize: '20px',
   cursor: 'pointer',
-  padding: '5px',
+  padding: '12px',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center'
+  justifyContent: 'center',
+  borderRadius: '50%',
+  transition: 'all 0.3s ease',
+  backdropFilter: 'blur(10px)'
 };
 
 const mobileNavStyles = {
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
-  marginTop: '15px',
-  gap: '10px',
-  backgroundColor: '#065F46',
-  borderRadius: '12px',
-  padding: '15px',
-  animation: 'slideDown 0.3s ease'
+  marginTop: '20px',
+  gap: '12px',
+  background: 'linear-gradient(135deg, rgba(11,59,47,0.98) 0%, rgba(26,93,74,0.98) 100%)',
+  borderRadius: '24px',
+  padding: '20px',
+  animation: 'slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+  backdropFilter: 'blur(20px)',
+  border: '1px solid rgba(255,215,0,0.2)',
+  boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
 };
 
 const mobileNavLinkStyles = {
   textDecoration: 'none',
   color: 'white',
-  padding: '12px',
-  borderRadius: '8px',
+  padding: '14px',
+  borderRadius: '16px',
   textAlign: 'center',
   fontSize: '16px',
   fontWeight: '500',
-  backgroundColor: '#047857',
-  transition: 'all 0.2s ease',
+  background: 'linear-gradient(135deg, rgba(255,215,0,0.1) 0%, rgba(255,215,0,0.05) 100%)',
+  transition: 'all 0.3s ease',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '10px'
+  gap: '12px',
+  border: '1px solid rgba(255,215,0,0.2)'
 };
 
 const mobileAdminButtonStyles = {
-  backgroundColor: '#DC2626',
-  padding: '12px',
-  borderRadius: '8px',
+  background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+  padding: '14px',
+  borderRadius: '16px',
   textDecoration: 'none',
-  color: 'white',
+  color: '#0B3B2F',
   textAlign: 'center',
   fontSize: '16px',
   fontWeight: 'bold',
-  marginTop: '5px',
-  transition: 'all 0.2s ease',
+  marginTop: '8px',
+  transition: 'all 0.3s ease',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '10px'
+  gap: '12px',
+  boxShadow: '0 4px 15px rgba(255,215,0,0.3)'
 };
 
 const languageButtonStyles = {
-  backgroundColor: '#047857',
-  padding: '8px 16px',
-  borderRadius: '8px',
-  border: 'none',
-  color: 'white',
+  background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%)',
+  padding: '10px 20px',
+  borderRadius: '40px',
+  border: '1px solid rgba(255,215,0,0.3)',
+  color: '#FFD700',
   cursor: 'pointer',
   fontSize: '14px',
   fontWeight: 'bold',
   transition: 'all 0.3s ease',
   display: 'flex',
   alignItems: 'center',
-  gap: '8px'
+  gap: '8px',
+  backdropFilter: 'blur(10px)'
 };
 
 const mobileLanguageButtonStyles = {
-  backgroundColor: '#047857',
-  padding: '12px',
-  borderRadius: '8px',
-  border: 'none',
-  color: 'white',
+  background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%)',
+  padding: '14px',
+  borderRadius: '16px',
+  border: '1px solid rgba(255,215,0,0.3)',
+  color: '#FFD700',
   cursor: 'pointer',
   fontSize: '16px',
   fontWeight: 'bold',
   width: '100%',
-  marginTop: '5px',
+  marginTop: '8px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '10px'
+  gap: '12px',
+  backdropFilter: 'blur(10px)'
 };
 
 function Header({ language, setLanguage }) {
@@ -173,6 +208,7 @@ function Header({ language, setLanguage }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [logoClickCount, setLogoClickCount] = useState(0);
   const [showAdminButton, setShowAdminButton] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -189,7 +225,7 @@ function Header({ language, setLanguage }) {
       setShowAdminButton(true);
       setLogoClickCount(0);
       setTimeout(() => {
-        alert(language === 'en' ? 'Admin access granted! Click the admin button to manage motorcycles.' : 'An ba da damar admin! Danna maɓallin admin don sarrafa babura.');
+        alert(language === 'en' ? '✨ Admin access granted! Click the crown to manage motorcycles.' : '✨ An ba da damar admin! Danna madanni me kambu don sarrafa babura.');
       }, 100);
     }
     setTimeout(() => setLogoClickCount(0), 3000);
@@ -197,16 +233,18 @@ function Header({ language, setLanguage }) {
 
   const dynamicHeaderStyles = {
     ...headerStyles,
-    backgroundColor: isScrolled ? '#047857' : '#065F46',
-    padding: isScrolled ? '10px 0' : '15px 0',
-    transition: 'all 0.3s'
+    background: isScrolled 
+      ? 'linear-gradient(135deg, #052E24 0%, #0B3B2F 100%)' 
+      : 'linear-gradient(135deg, #0B3B2F 0%, #1A5D4A 50%, #0B3B2F 100%)',
+    padding: isScrolled ? '12px 0' : '15px 0',
+    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
   };
 
   const navItems = [
     { path: '/', label_en: 'Home', label_ha: 'Gida', icon: faHome },
-    { path: '/catalog', label_en: 'Catalog', label_ha: 'Kataloji', icon: faMotorcycle },
-    { path: '/about', label_en: 'About', label_ha: 'Game da', icon: faInfoCircle },
-    { path: '/contact', label_en: 'Contact', label_ha: 'Tuntuɓi', icon: faPhone }
+    { path: '/catalog', label_en: 'Catalog', label_ha: 'Wajen Kaya', icon: faMotorcycle },
+    { path: '/about', label_en: 'About Us', label_ha: 'Game da mu ', icon: faInfoCircle },
+    { path: '/contact', label_en: 'Contact Us', label_ha: 'Tuntuɓemu', icon: faPhone }
   ];
 
   const toggleLanguage = () => {
@@ -216,17 +254,24 @@ function Header({ language, setLanguage }) {
   return (
     <header style={dynamicHeaderStyles}>
       <div style={containerStyles}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <span 
-            style={{ fontSize: '28px', cursor: 'pointer' }} 
+            style={{ 
+              ...logoIconStyles, 
+              cursor: 'pointer',
+              transform: isHovered ? 'scale(1.1) rotate(5deg)' : 'scale(1)',
+              transition: 'all 0.3s ease'
+            }} 
             onClick={handleLogoClick}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
             title={language === 'en' ? 'Click 5 times for admin access' : 'Danna sau 5 don samun damar admin'}
           >
-            <FontAwesomeIcon icon={faMotorcycle} />
+            <FontAwesomeIcon icon={faBolt} style={{ color: '#FFD700' }} />
           </span>
-          <Link to="/" style={logoStyles}>
-            
-            {language === 'en' ? ' MotorCycleHub' : ' Cibiyar Babura'}
+          <Link to="/" style={logoStyles} onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'} onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}>
+            <FontAwesomeIcon icon={faFire} style={{ color: '#FFD700' }} />
+            {language === 'en' ? 'Fagge MotorCycleHub' : ' Fagge Yan-Babura'}
           </Link>
         </div>
 
@@ -238,11 +283,11 @@ function Header({ language, setLanguage }) {
               to={item.path}
               style={navLinkStyles(location.pathname === item.path)}
               onMouseEnter={(e) => {
-                if (location.pathname !== item.path) {
-                  e.target.style.backgroundColor = '#047857';
-                }
+                e.target.style.transform = 'translateY(-2px)';
+                e.target.style.backgroundColor = 'rgba(255,215,0,0.2)';
               }}
               onMouseLeave={(e) => {
+                e.target.style.transform = 'translateY(0)';
                 if (location.pathname !== item.path) {
                   e.target.style.backgroundColor = 'transparent';
                 }
@@ -254,18 +299,23 @@ function Header({ language, setLanguage }) {
           ))}
           <button onClick={toggleLanguage} style={languageButtonStyles}>
             <FontAwesomeIcon icon={faLanguage} />
-            {/* {language === 'en' ? ' Hausa' : ' English'} */}
-            English
+            {language === 'en' ? ' Hausa' : ' English'}
           </button>
           
           {showAdminButton && (
             <Link 
               to="/admin" 
               style={adminButtonStyles}
-              onMouseEnter={(e) => e.target.style.backgroundColor = '#065F46'}
-              onMouseLeave={(e) => e.target.style.backgroundColor = '#047857'}
+              onMouseEnter={(e) => {
+                e.target.style.transform = 'translateY(-2px) scale(1.05)';
+                e.target.style.boxShadow = '0 6px 20px rgba(255,215,0,0.5)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'translateY(0) scale(1)';
+                e.target.style.boxShadow = '0 4px 15px rgba(255,215,0,0.3)';
+              }}
             >
-              <FontAwesomeIcon icon={faUserShield} />
+              <FontAwesomeIcon icon={faCrown} />
               {language === 'en' ? ' Admin' : ' Admin'}
             </Link>
           )}
@@ -276,6 +326,8 @@ function Header({ language, setLanguage }) {
           style={mobileMenuButtonStyles}
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="mobile-menu-button"
+          onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+          onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
         >
           <FontAwesomeIcon icon={isMobileMenuOpen ? faTimes : faBars} />
         </button>
@@ -289,8 +341,14 @@ function Header({ language, setLanguage }) {
                 to={item.path}
                 style={mobileNavLinkStyles}
                 onClick={() => setIsMobileMenuOpen(false)}
-                onMouseEnter={(e) => e.target.style.backgroundColor = '#065F46'}
-                onMouseLeave={(e) => e.target.style.backgroundColor = '#047857'}
+                onMouseEnter={(e) => {
+                  e.target.style.transform = 'translateX(5px)';
+                  e.target.style.background = 'linear-gradient(135deg, rgba(255,215,0,0.2) 0%, rgba(255,215,0,0.1) 100%)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.transform = 'translateX(0)';
+                  e.target.style.background = 'linear-gradient(135deg, rgba(255,215,0,0.1) 0%, rgba(255,215,0,0.05) 100%)';
+                }}
               >
                 <FontAwesomeIcon icon={item.icon} />
                 {language === 'en' ? item.label_en : item.label_ha}
@@ -302,12 +360,11 @@ function Header({ language, setLanguage }) {
                 setIsMobileMenuOpen(false);
               }}
               style={mobileLanguageButtonStyles}
-              onMouseEnter={(e) => e.target.style.backgroundColor = '#065F46'}
-              onMouseLeave={(e) => e.target.style.backgroundColor = '#047857'}
+              onMouseEnter={(e) => e.target.style.background = 'linear-gradient(135deg, rgba(255,215,0,0.25) 0%, rgba(255,215,0,0.15) 100%)'}
+              onMouseLeave={(e) => e.target.style.background = 'linear-gradient(135deg, rgba(255,215,0,0.15) 0%, rgba(255,215,0,0.05) 100%)'}
             >
               <FontAwesomeIcon icon={faLanguage} />
-              {/* {language === 'en' ? ' Hausa' : ' English'} */}
-              English
+              {language === 'en' ? ' Hausa' : ' English'}
             </button>
             
             {showAdminButton && (
@@ -315,8 +372,14 @@ function Header({ language, setLanguage }) {
                 to="/admin" 
                 style={mobileAdminButtonStyles}
                 onClick={() => setIsMobileMenuOpen(false)}
-                onMouseEnter={(e) => e.target.style.backgroundColor = '#b91c1c'}
-                onMouseLeave={(e) => e.target.style.backgroundColor = '#DC2626'}
+                onMouseEnter={(e) => {
+                  e.target.style.transform = 'translateY(-2px)';
+                  e.target.style.boxShadow = '0 6px 20px rgba(255,215,0,0.5)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.transform = 'translateY(0)';
+                  e.target.style.boxShadow = '0 4px 15px rgba(255,215,0,0.3)';
+                }}
               >
                 <FontAwesomeIcon icon={faCrown} />
                 {language === 'en' ? ' Admin Panel' : ' Admin Panel'}
@@ -327,6 +390,26 @@ function Header({ language, setLanguage }) {
       </div>
 
       <style>{`
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateY(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes pulse {
+          0%, 100% {
+            filter: drop-shadow(0 0 5px rgba(255,215,0,0.5));
+          }
+          50% {
+            filter: drop-shadow(0 0 15px rgba(255,215,0,0.8));
+          }
+        }
+        
         @media (max-width: 768px) {
           .desktop-nav {
             display: none !important;
@@ -341,15 +424,24 @@ function Header({ language, setLanguage }) {
           }
         }
         
-        @keyframes slideDown {
-          from {
-            opacity: 0;
-            transform: translateY(-10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+        /* Premium scrollbar */
+        ::-webkit-scrollbar {
+          width: 8px;
+          height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+          background: #0B3B2F;
+          border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+          background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+          border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+          background: linear-gradient(135deg, #FFA500 0%, #FFD700 100%);
         }
       `}</style>
     </header>
