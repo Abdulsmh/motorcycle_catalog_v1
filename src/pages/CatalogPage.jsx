@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import VehicleGrid from '../components/VehicleGrid';
 import VehicleModal from '../components/VehicleModal';
 import { loadMotorcycles } from '../utils/storage';
+import WhatsAppButton from '../components/WhatsAppButton';
 
 const containerStyles = {
   maxWidth: '1200px',
@@ -250,6 +251,7 @@ function CatalogPage({ language }) {
         onClose={() => setIsModalOpen(false)}
         language={language}
       />
+      <WhatsAppButton />
     </div>
   );
 }

@@ -20,7 +20,7 @@ const modalOverlayStyles = {
   alignItems: 'center',
   justifyContent: 'center',
   zIndex: 1000,
-  padding: '20px',
+  padding: '16px',
   animation: 'fadeIn 0.3s ease'
 };
 
@@ -36,13 +36,16 @@ const modalContentStyles = {
 };
 
 const headerStyles = {
-  padding: '24px',
+  padding: '20px 24px',
   borderBottom: '1px solid #E5E7EB',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
   backgroundColor: '#F9FAFB',
-  borderRadius: '24px 24px 0 0'
+  borderRadius: '24px 24px 0 0',
+  position: 'sticky',
+  top: 0,
+  zIndex: 10
 };
 
 const titleStyles = {
@@ -78,6 +81,47 @@ const twoColumnStyles = {
   gap: '32px'
 };
 
+// Mobile responsive styles
+const mobileStyles = `
+  @media (max-width: 768px) {
+    .modal-two-column {
+      grid-template-columns: 1fr !important;
+      gap: 20px !important;
+    }
+    .modal-header {
+      padding: 16px !important;
+    }
+    .modal-title {
+      font-size: 20px !important;
+    }
+    .modal-body {
+      padding: 16px !important;
+    }
+    .modal-main-image {
+      height: 220px !important;
+    }
+    .modal-price {
+      font-size: 24px !important;
+    }
+    .modal-total-price {
+      font-size: 22px !important;
+    }
+    .modal-inquire-btn {
+      padding: 14px !important;
+      font-size: 16px !important;
+    }
+    .modal-quantity-btn {
+      width: 36px !important;
+      height: 36px !important;
+      font-size: 18px !important;
+    }
+    .modal-color-btn {
+      width: 40px !important;
+      height: 40px !important;
+    }
+  }
+`;
+
 const imageSectionStyles = {
   display: 'flex',
   flexDirection: 'column',
@@ -86,7 +130,7 @@ const imageSectionStyles = {
 
 const mainImageStyles = {
   width: '100%',
-  height: '320px',
+  height: '300px',
   objectFit: 'cover',
   borderRadius: '16px',
   backgroundColor: '#F3F4F6'
@@ -156,7 +200,7 @@ const quantityDisplayStyles = {
 const inquireButtonStyles = {
   width: '100%',
   padding: '14px',
-  backgroundColor: '#065F46',
+  backgroundColor: '#25D366',
   color: 'white',
   border: 'none',
   borderRadius: '12px',
@@ -165,7 +209,18 @@ const inquireButtonStyles = {
   cursor: 'pointer',
   marginTop: '24px',
   transition: 'all 0.3s',
-  boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '10px'
+};
+
+const totalPriceStyles = {
+  marginTop: '24px',
+  padding: '20px',
+  backgroundColor: '#F9FAFB',
+  borderRadius: '16px'
 };
 
 function VehicleModal({ vehicle, isOpen, onClose, language }) {
@@ -180,7 +235,7 @@ function VehicleModal({ vehicle, isOpen, onClose, language }) {
   const availableText = language === 'en' ? 'available' : 'akwai';
   const quantityText = language === 'en' ? 'Quantity' : 'Adadi';
   const totalText = language === 'en' ? 'Total Price' : 'Jimlar Kuɗi';
-  const inquireText = language === 'en' ? 'Inquire About This Motorcycle' : 'Tambaya Game da Wannan Babur';
+  const inquireText = language === 'en' ? 'Inquire via WhatsApp' : 'Tambaya ta WhatsApp';
 
   const handleQuantityChange = (change) => {
     const newQuantity = quantity + change;
@@ -189,133 +244,157 @@ function VehicleModal({ vehicle, isOpen, onClose, language }) {
     }
   };
 
-  const handleInquire = () => {
-    const message = language === 'en' 
-      ? `Inquiry sent!\n\nMotorcycle: ${vehicle.name}\nColor: ${selectedColor?.name}\nQuantity: ${quantity}\nTotal: ${formatNaira(vehicle.price * quantity)}\n\nThe seller will contact you soon.`
-      : `An aika tambaya!\n\nBabur: ${vehicle.name}\nLauni: ${selectedColor?.name}\nAdadi: ${quantity}\nJimla: ${formatNaira(vehicle.price * quantity)}\n\nMai sayarwa zai tuntube ku nan ba da jimawa ba.`;
-    alert(message);
+  const handleWhatsAppInquiry = () => {
+    const phoneNumber = '2347015102718'; // WhatsApp number (without +)
+    const message = encodeURIComponent(
+      `Hello! I'm interested in:\n\n` +
+      `🏍️ Motorcycle: ${vehicle.name}\n` +
+      `🎨 Color: ${selectedColor?.name}\n` +
+      `🔢 Quantity: ${quantity}\n` +
+      `💰 Total: ${formatNaira(vehicle.price * quantity)}\n\n` +
+      `Please provide more information. Thank you!`
+    );
+    
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    window.open(whatsappUrl, '_blank');
     onClose();
   };
 
-  const currentImage = selectedColor?.imageUrls?.[0] || vehicle.mainImageUrl || 'https://placehold.co/400x300/065F46/white?text=Motorcycle';
+  const currentImage = selectedColor?.images?.[0] || vehicle.main_image_url || 'https://picsum.photos/id/100/400/300';
+
   return (
-    <div style={modalOverlayStyles} onClick={onClose}>
-      <div style={modalContentStyles} onClick={(e) => e.stopPropagation()}>
-        <div style={headerStyles}>
-          <h2 style={titleStyles}>{vehicle.name}</h2>
-          <button 
-            style={closeButtonStyles} 
-            onClick={onClose}
-            onMouseEnter={(e) => {
-              e.target.style.backgroundColor = '#F3F4F6';
-              e.target.style.color = '#1F2937';
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.backgroundColor = 'transparent';
-              e.target.style.color = '#6B7280';
-            }}
-          >
-            ✕
-          </button>
-        </div>
-        
-        <div style={bodyStyles}>
-          <div style={twoColumnStyles}>
-            <div style={imageSectionStyles}>
-              <img 
-                src={currentImage} 
-                alt={vehicle.name}
-                style={mainImageStyles}
-              />
+    <>
+      <style>{mobileStyles}</style>
+      <div style={modalOverlayStyles} onClick={onClose}>
+        <div style={modalContentStyles} onClick={(e) => e.stopPropagation()}>
+          <div className="modal-header" style={headerStyles}>
+            <h2 className="modal-title" style={titleStyles}>{vehicle.name}</h2>
+            <button 
+              style={closeButtonStyles} 
+              onClick={onClose}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#F3F4F6';
+                e.target.style.color = '#1F2937';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = 'transparent';
+                e.target.style.color = '#6B7280';
+              }}
+            >
+              ✕
+            </button>
+          </div>
+          
+          <div className="modal-body" style={bodyStyles}>
+            <div className="modal-two-column" style={twoColumnStyles}>
+              {/* Left column - Images */}
+              <div style={imageSectionStyles}>
+                <img 
+                  className="modal-main-image"
+                  src={currentImage} 
+                  alt={vehicle.name}
+                  style={mainImageStyles}
+                  onError={(e) => {
+                    e.target.src = 'https://picsum.photos/id/100/400/300';
+                  }}
+                />
+                <div>
+                  <p style={{ fontWeight: 'bold', marginBottom: '12px', color: '#1F2937' }}>{colorText}:</p>
+                  <div style={colorButtonsStyles}>
+                    {vehicle.colors?.map((color, idx) => (
+                      <button
+                        key={idx}
+                        className="modal-color-btn"
+                        style={colorButtonStyles(color, selectedColor?.name === color.name)}
+                        onClick={() => {
+                          setSelectedColor(color);
+                          setQuantity(1);
+                        }}
+                        title={color.name}
+                        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Right column - Details */}
               <div>
-                <p style={{ fontWeight: 'bold', marginBottom: '12px', color: '#1F2937' }}>{colorText}:</p>
-                <div style={colorButtonsStyles}>
-                  {vehicle.colors.map(color => (
-                    <button
-                      key={color.name}
-                      style={colorButtonStyles(color, selectedColor?.name === color.name)}
-                      onClick={() => {
-                        setSelectedColor(color);
-                        setQuantity(1);
-                      }}
-                      title={color.name}
-                      onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-                      onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                    />
-                  ))}
+                <p style={descriptionStyles}>{description}</p>
+                
+                <div style={{ marginBottom: '20px' }}>
+                  <p style={{ fontWeight: 'bold', color: '#1F2937' }}>{selectedColorText}:</p>
+                  <p style={{ fontSize: '18px', fontWeight: '500', marginTop: '5px' }}>{selectedColor?.name}</p>
+                  <p style={{ fontSize: '14px', color: '#6B7280' }}>
+                    {availableText}: {selectedColor?.quantity} {language === 'en' ? 'units' : 'raka'}
+                  </p>
                 </div>
-              </div>
-            </div>
 
-            <div>
-              <p style={descriptionStyles}>{description}</p>
-              
-              <div style={{ marginBottom: '20px' }}>
-                <p style={{ fontWeight: 'bold', color: '#1F2937' }}>{selectedColorText}:</p>
-                <p style={{ fontSize: '18px', fontWeight: '500', marginTop: '5px' }}>{selectedColor?.name}</p>
-                <p style={{ fontSize: '14px', color: '#6B7280' }}>
-                  {availableText}: {selectedColor?.quantity} {language === 'en' ? 'units' : 'raka\'a'}
+                <p className="modal-price" style={priceStyles}>
+                  {formatNaira(vehicle.price)} <span style={{ fontSize: '14px', fontWeight: 'normal' }}>{language === 'en' ? 'each' : 'kowanne'}</span>
                 </p>
-              </div>
-
-              <p style={priceStyles}>{formatNaira(vehicle.price)} <span style={{ fontSize: '14px', fontWeight: 'normal' }}>{language === 'en' ? 'each' : 'kowanne'}</span></p>
-              
-              <div style={quantitySectionStyles}>
-                <p style={{ fontWeight: 'bold', color: '#1F2937' }}>{quantityText}:</p>
-                <div style={quantityControlsStyles}>
-                  <button 
-                    style={quantityButtonStyles}
-                    onClick={() => handleQuantityChange(-1)}
-                    disabled={quantity <= 1}
-                    onMouseEnter={(e) => e.target.style.backgroundColor = '#E5E7EB'}
-                    onMouseLeave={(e) => e.target.style.backgroundColor = '#F9FAFB'}
-                  >
-                    -
-                  </button>
-                  <span style={quantityDisplayStyles}>{quantity}</span>
-                  <button 
-                    style={quantityButtonStyles}
-                    onClick={() => handleQuantityChange(1)}
-                    disabled={quantity >= (selectedColor?.quantity || 1)}
-                    onMouseEnter={(e) => e.target.style.backgroundColor = '#E5E7EB'}
-                    onMouseLeave={(e) => e.target.style.backgroundColor = '#F9FAFB'}
-                  >
-                    +
-                  </button>
-                  <span style={{ fontSize: '14px', color: '#6B7280' }}>
-                    {selectedColor?.quantity} {language === 'en' ? 'available' : 'akwai'}
-                  </span>
+                
+                <div style={quantitySectionStyles}>
+                  <p style={{ fontWeight: 'bold', color: '#1F2937' }}>{quantityText}:</p>
+                  <div style={quantityControlsStyles}>
+                    <button 
+                      className="modal-quantity-btn"
+                      style={quantityButtonStyles}
+                      onClick={() => handleQuantityChange(-1)}
+                      disabled={quantity <= 1}
+                      onMouseEnter={(e) => e.target.style.backgroundColor = '#E5E7EB'}
+                      onMouseLeave={(e) => e.target.style.backgroundColor = '#F9FAFB'}
+                    >
+                      -
+                    </button>
+                    <span style={quantityDisplayStyles}>{quantity}</span>
+                    <button 
+                      className="modal-quantity-btn"
+                      style={quantityButtonStyles}
+                      onClick={() => handleQuantityChange(1)}
+                      disabled={quantity >= (selectedColor?.quantity || 1)}
+                      onMouseEnter={(e) => e.target.style.backgroundColor = '#E5E7EB'}
+                      onMouseLeave={(e) => e.target.style.backgroundColor = '#F9FAFB'}
+                    >
+                      +
+                    </button>
+                    <span style={{ fontSize: '14px', color: '#6B7280' }}>
+                      {selectedColor?.quantity} {language === 'en' ? 'available' : 'akwai'}
+                    </span>
+                  </div>
                 </div>
-              </div>
 
-              <div style={{ marginTop: '24px', padding: '20px', backgroundColor: '#F9FAFB', borderRadius: '16px' }}>
-                <p style={{ fontWeight: 'bold', marginBottom: '8px', color: '#1F2937' }}>{totalText}:</p>
-                <p style={{ fontSize: '28px', fontWeight: 'bold', color: '#065F46' }}>
-                  {formatNaira(vehicle.price * quantity)}
-                </p>
-              </div>
+                <div style={totalPriceStyles}>
+                  <p style={{ fontWeight: 'bold', marginBottom: '8px', color: '#1F2937' }}>{totalText}:</p>
+                  <p className="modal-total-price" style={{ fontSize: '28px', fontWeight: 'bold', color: '#065F46' }}>
+                    {formatNaira(vehicle.price * quantity)}
+                  </p>
+                </div>
 
-              <button 
-                style={inquireButtonStyles}
-                onClick={handleInquire}
-                onMouseEnter={(e) => {
-                  e.target.style.backgroundColor = '#047857';
-                  e.target.style.transform = 'translateY(-2px)';
-                  e.target.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.backgroundColor = '#065F46';
-                  e.target.style.transform = 'translateY(0)';
-                  e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
-                }}
-              >
-                {inquireText}
-              </button>
+                <button 
+                  className="modal-inquire-btn"
+                  style={inquireButtonStyles}
+                  onClick={handleWhatsAppInquiry}
+                  onMouseEnter={(e) => {
+                    e.target.style.backgroundColor = '#128C7E';
+                    e.target.style.transform = 'translateY(-2px)';
+                    e.target.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.backgroundColor = '#25D366';
+                    e.target.style.transform = 'translateY(0)';
+                    e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+                  }}
+                >
+                  💬 {inquireText}
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

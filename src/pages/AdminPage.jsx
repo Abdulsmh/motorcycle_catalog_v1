@@ -172,48 +172,52 @@ function AdminPage() {
     }
   };
 
-  const calculateStats = (motorcycleArray) => {
-    try {
-      const totalColors = motorcycleArray.reduce((sum, bike) => {
-        if (bike && bike.colors && Array.isArray(bike.colors)) {
-          return sum + bike.colors.length;
-        }
-        return sum;
-      }, 0);
-      
-      const totalStock = motorcycleArray.reduce((sum, bike) => {
-        if (bike && bike.colors && Array.isArray(bike.colors)) {
-          const bikeStock = bike.colors.reduce((colorSum, color) => {
-            return colorSum + (color.quantity || 0);
-          }, 0);
-          return sum + bikeStock;
-        }
-        return sum;
-      }, 0);
-      
-      const totalValue = motorcycleArray.reduce((sum, bike) => {
-        if (bike && bike.price) {
-          return sum + (bike.price * (bike.colors?.reduce((q, c) => q + (c.quantity || 0), 0) || 0));
-        }
-        return sum;
-      }, 0);
-      
-      setStats({
-        totalMotorcycles: motorcycleArray.length,
-        totalColors: totalColors,
-        totalStock: totalStock,
-        totalValue: totalValue
-      });
-    } catch (err) {
-      console.error('Error calculating stats:', err);
-      setStats({
-        totalMotorcycles: 0,
-        totalColors: 0,
-        totalStock: 0,
-        totalValue: 0
-      });
-    }
-  };
+const calculateStats = (motorcycleArray) => {
+  try {
+    // Ensure motorcycleArray is an array
+    const bikes = Array.isArray(motorcycleArray) ? motorcycleArray : [];
+    
+    const totalColors = bikes.reduce((sum, bike) => {
+      if (bike && bike.colors && Array.isArray(bike.colors)) {
+        return sum + bike.colors.length;
+      }
+      return sum;
+    }, 0);
+    
+    const totalStock = bikes.reduce((sum, bike) => {
+      if (bike && bike.colors && Array.isArray(bike.colors)) {
+        const bikeStock = bike.colors.reduce((colorSum, color) => {
+          return colorSum + (color?.quantity || 0);
+        }, 0);
+        return sum + bikeStock;
+      }
+      return sum;
+    }, 0);
+    
+    const totalValue = bikes.reduce((sum, bike) => {
+      if (bike && bike.price && bike.colors && Array.isArray(bike.colors)) {
+        const totalQuantity = bike.colors.reduce((q, c) => q + (c?.quantity || 0), 0);
+        return sum + (bike.price * totalQuantity);
+      }
+      return sum;
+    }, 0);
+    
+    setStats({
+      totalMotorcycles: bikes.length,
+      totalColors: totalColors,
+      totalStock: totalStock,
+      totalValue: totalValue
+    });
+  } catch (err) {
+    console.error('Error calculating stats:', err);
+    setStats({
+      totalMotorcycles: 0,
+      totalColors: 0,
+      totalStock: 0,
+      totalValue: 0
+    });
+  }
+};
 
   const handleAddMotorcycle = async (newMotorcycle, mainImage, colorImages) => {
     try {
