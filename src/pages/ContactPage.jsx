@@ -7,7 +7,8 @@ import {
   faClock,
   faPaperPlane,
   faCheckCircle,
-  faSpinner
+  faSpinner,
+  faArrowRight
 } from '@fortawesome/free-solid-svg-icons';
 import { 
   faWhatsapp, 
@@ -19,81 +20,85 @@ import {
 const containerStyles = {
   maxWidth: '1200px',
   margin: '0 auto',
-  padding: '40px 24px'
+  padding: '24px 16px'
 };
 
+// Hero Section - Mobile Optimized
 const heroSectionStyles = {
   textAlign: 'center',
-  marginBottom: '60px',
-  padding: '60px 20px',
+  marginBottom: '32px',
+  padding: '40px 20px',
   background: 'linear-gradient(135deg, #FEF9E6 0%, #ffffff 100%)',
-  borderRadius: '32px',
+  borderRadius: '24px',
   border: '1px solid rgba(255,215,0,0.2)'
 };
 
 const titleStyles = {
-  fontSize: '48px',
+  fontSize: '32px',
   fontWeight: 'bold',
   background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
   WebkitBackgroundClip: 'text',
   WebkitTextFillColor: 'transparent',
   backgroundClip: 'text',
-  marginBottom: '16px',
+  marginBottom: '12px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '16px'
+  gap: '12px',
+  flexWrap: 'wrap'
 };
 
 const subtitleStyles = {
-  fontSize: '18px',
+  fontSize: '14px',
   color: '#6B7280',
-  maxWidth: '600px',
+  maxWidth: '500px',
   margin: '0 auto',
-  lineHeight: '1.6'
+  lineHeight: '1.5'
 };
 
+// Grid - Mobile Optimized
 const gridStyles = {
-  display: 'grid',
-  gridTemplateColumns: '1fr 1fr',
-  gap: '40px'
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '24px'
 };
 
+// Contact Info Section - Mobile Optimized
 const infoSectionStyles = {
   backgroundColor: 'white',
-  padding: '32px',
-  borderRadius: '24px',
+  padding: '24px',
+  borderRadius: '20px',
   border: '1px solid rgba(255,215,0,0.2)',
-  boxShadow: '0 4px 6px -2px rgba(0,0,0,0.05)'
+  boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
 };
 
 const infoTitleStyles = {
-  fontSize: '24px',
+  fontSize: '20px',
   fontWeight: 'bold',
-  marginBottom: '24px',
+  marginBottom: '20px',
   color: '#1F2937',
   display: 'flex',
   alignItems: 'center',
-  gap: '12px'
+  gap: '10px'
 };
 
 const contactItemStyles = {
   display: 'flex',
   alignItems: 'center',
-  gap: '16px',
-  padding: '16px 0',
+  gap: '12px',
+  padding: '12px 0',
   borderBottom: '1px solid #F3F4F6'
 };
 
 const contactIconStyles = {
-  width: '50px',
-  height: '50px',
+  width: '44px',
+  height: '44px',
   backgroundColor: '#FEF9E6',
   borderRadius: '50%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  fontSize: '20px',
+  fontSize: '18px',
   color: '#FFD700'
 };
 
@@ -102,28 +107,30 @@ const contactContentStyles = {
 };
 
 const contactLabelStyles = {
-  fontSize: '12px',
+  fontSize: '11px',
   color: '#9CA3AF',
-  marginBottom: '4px',
+  marginBottom: '2px',
   textTransform: 'uppercase',
-  letterSpacing: '0.5px'
+  letterSpacing: '0.3px'
 };
 
 const contactValueStyles = {
-  fontSize: '16px',
+  fontSize: '14px',
   fontWeight: '500',
   color: '#1F2937'
 };
 
+// Social Links - Mobile Optimized
 const socialLinksStyles = {
   display: 'flex',
-  gap: '16px',
-  marginTop: '24px'
+  gap: '12px',
+  marginTop: '20px',
+  justifyContent: 'center'
 };
 
 const socialButtonStyles = {
-  width: '45px',
-  height: '45px',
+  width: '44px',
+  height: '44px',
   backgroundColor: '#F3F4F6',
   borderRadius: '50%',
   display: 'flex',
@@ -136,103 +143,168 @@ const socialButtonStyles = {
   border: 'none'
 };
 
+// Form Section - Mobile Optimized
 const formSectionStyles = {
   backgroundColor: 'white',
-  padding: '32px',
-  borderRadius: '24px',
+  padding: '24px',
+  borderRadius: '20px',
   border: '1px solid rgba(255,215,0,0.2)',
-  boxShadow: '0 4px 6px -2px rgba(0,0,0,0.05)'
+  boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
 };
 
 const formTitleStyles = {
-  fontSize: '24px',
+  fontSize: '20px',
   fontWeight: 'bold',
-  marginBottom: '8px',
+  marginBottom: '6px',
   color: '#1F2937'
 };
 
 const formSubtitleStyles = {
-  fontSize: '14px',
+  fontSize: '13px',
   color: '#6B7280',
-  marginBottom: '24px'
+  marginBottom: '20px'
 };
 
 const inputGroupStyles = {
-  marginBottom: '20px'
+  marginBottom: '16px'
 };
 
 const labelStyles = {
   display: 'block',
-  marginBottom: '8px',
+  marginBottom: '6px',
   fontWeight: '500',
   color: '#374151',
-  fontSize: '14px'
+  fontSize: '13px'
 };
 
 const inputStyles = {
   width: '100%',
-  padding: '12px 16px',
+  padding: '12px 14px',
   border: '2px solid #E5E7EB',
   borderRadius: '12px',
   fontSize: '14px',
   transition: 'all 0.3s ease',
   outline: 'none',
-  fontFamily: 'inherit'
+  fontFamily: 'inherit',
+  boxSizing: 'border-box'
 };
 
 const textareaStyles = {
   width: '100%',
-  padding: '12px 16px',
+  padding: '12px 14px',
   border: '2px solid #E5E7EB',
   borderRadius: '12px',
   fontSize: '14px',
-  minHeight: '120px',
+  minHeight: '100px',
   transition: 'all 0.3s ease',
   outline: 'none',
   fontFamily: 'inherit',
-  resize: 'vertical'
+  resize: 'vertical',
+  boxSizing: 'border-box'
 };
 
 const buttonStyles = {
   width: '100%',
-  padding: '14px',
+  padding: '12px',
   background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
   color: '#0B3B2F',
   border: 'none',
   borderRadius: '40px',
-  fontSize: '16px',
+  fontSize: '14px',
   fontWeight: 'bold',
   cursor: 'pointer',
   transition: 'all 0.3s ease',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '10px'
+  gap: '8px'
 };
 
 const successStyles = {
   display: 'flex',
   alignItems: 'center',
-  gap: '12px',
+  gap: '10px',
   backgroundColor: '#D1FAE5',
   color: '#065F46',
-  padding: '16px',
+  padding: '12px',
   borderRadius: '12px',
-  marginBottom: '24px',
-  border: '1px solid #A7F3D0'
+  marginBottom: '20px',
+  border: '1px solid #A7F3D0',
+  fontSize: '13px'
 };
 
-const mobileStyles = `
-  @media (max-width: 768px) {
-    .contact-grid {
-      grid-template-columns: 1fr !important;
-      gap: 24px !important;
+// Tablet and Desktop Styles
+const tabletStyles = `
+  @media (min-width: 768px) {
+    .contact-container {
+      padding: 32px 24px !important;
+    }
+    .hero-section {
+      padding: 50px 30px !important;
+      margin-bottom: 48px !important;
     }
     .hero-title {
-      font-size: 32px !important;
+      font-size: 40px !important;
+    }
+    .hero-subtitle {
+      font-size: 16px !important;
+    }
+    .contact-grid {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 32px !important;
     }
     .info-section, .form-section {
-      padding: 24px !important;
+      padding: 32px !important;
+    }
+    .info-title, .form-title {
+      font-size: 22px !important;
+    }
+    .contact-item {
+      padding: 14px 0 !important;
+    }
+    .contact-icon {
+      width: 48px !important;
+      height: 48px !important;
+      font-size: 20px !important;
+    }
+    .contact-value {
+      font-size: 15px !important;
+    }
+    .social-button {
+      width: 48px !important;
+      height: 48px !important;
+      font-size: 22px !important;
+    }
+    .form-subtitle {
+      font-size: 14px !important;
+    }
+    .input, .textarea {
+      padding: 12px 16px !important;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .contact-container {
+      padding: 40px 32px !important;
+    }
+    .hero-title {
+      font-size: 48px !important;
+    }
+    .hero-subtitle {
+      font-size: 18px !important;
+    }
+    .contact-grid {
+      gap: 48px !important;
+    }
+    .info-section, .form-section {
+      padding: 40px !important;
+    }
+    .info-title, .form-title {
+      font-size: 24px !important;
+    }
+    .contact-value {
+      font-size: 16px !important;
     }
   }
   
@@ -269,7 +341,6 @@ function ContactPage({ language = 'en' }) {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate API call
     setTimeout(() => {
       console.log('Contact form submitted:', formData);
       setSubmitted(true);
@@ -293,51 +364,50 @@ function ContactPage({ language = 'en' }) {
   const contactInfo = [
     {
       icon: faEnvelope,
-      label: language === 'en' ? 'Email Us' : 'Turo mana Email',
+      label: language === 'en' ? 'Email' : 'Imel',
       value: 'support@faggemotorcyclehub.com',
       link: 'mailto:support@faggemotorcyclehub.com'
     },
     {
       icon: faPhone,
-      label: language === 'en' ? 'Call Us' : 'Kira Mu',
+      label: language === 'en' ? 'Phone' : 'Waya',
       value: '+234 81-1111-3205',
       link: 'tel:+2348111113205'
     },
     {
       icon: faWhatsapp,
-      label: language === 'en' ? 'WhatsApp' : 'WhatsApp',
+      label: 'WhatsApp',
       value: '+234 701 510 2718',
       link: 'https://wa.me/2347015102718'
     },
     {
       icon: faMapMarkerAlt,
-      label: language === 'en' ? 'Visit Us' : 'Ziyarce Mu',
-      value: language === 'en' ? 'Kano, Nigeria' : 'Kano, Nigeria',
+      label: language === 'en' ? 'Location' : 'Wuri',
+      value: 'Kano, Nigeria',
       link: null
     },
     {
       icon: faClock,
-      label: language === 'en' ? 'Business Hours' : 'Lokutan Aiki',
-      value: language === 'en' ? 'Mon - Sat: 9:00 AM - 6:00 PM' : 'Lit - Asabar: 9:00 na safe - 6:00 na yamma',
+      label: language === 'en' ? 'Hours' : 'Lokuta',
+      value: language === 'en' ? 'Mon-Sat: 9AM-6PM' : 'Lit-Asa: 9-6 na safe/yamma',
       link: null
     }
   ];
 
   return (
     <>
-      <style>{mobileStyles}</style>
-      <div style={containerStyles}>
+      <style>{tabletStyles}</style>
+      <div className="contact-container" style={containerStyles}>
         {/* Hero Section */}
-        <div style={heroSectionStyles}>
+        <div className="hero-section" style={heroSectionStyles}>
           <h1 className="hero-title" style={titleStyles}>
-            <FontAwesomeIcon icon={faEnvelope} style={{ color: '#FFD700' }} />
+            <FontAwesomeIcon icon={faEnvelope} />
             {language === 'en' ? 'Contact Us' : 'Tuntuɓi Mu'}
-            <FontAwesomeIcon icon={faPaperPlane} style={{ color: '#FFD700' }} />
           </h1>
-          <p style={subtitleStyles}>
+          <p className="hero-subtitle" style={subtitleStyles}>
             {language === 'en' 
-              ? 'Have questions about our motorcycles? We\'re here to help you find the perfect ride.'
-              : 'Kuna da tambayoyi game da baburan mu? Muna nan don taimaka muku wajen samun abun hawa daya dace daku'}
+              ? 'Have questions? We\'re here to help you find the perfect ride.'
+              : 'Kuna da tambayoyi? Muna nan don taimaka muku samun abun hawa daya dace.'}
           </p>
         </div>
 
@@ -345,14 +415,14 @@ function ContactPage({ language = 'en' }) {
         <div className="contact-grid" style={gridStyles}>
           {/* Left Column - Contact Info */}
           <div className="info-section" style={infoSectionStyles}>
-            <h2 style={infoTitleStyles}>
-              <FontAwesomeIcon icon={faPhone} style={{ color: '#FFD700' }} />
+            <h2 className="info-title" style={infoTitleStyles}>
+              <FontAwesomeIcon icon={faPhone} />
               {language === 'en' ? 'Get in Touch' : 'Tuntuɓe Mu'}
             </h2>
             
             {contactInfo.map((item, index) => (
-              <div key={index} style={contactItemStyles}>
-                <div style={contactIconStyles}>
+              <div key={index} className="contact-item" style={contactItemStyles}>
+                <div className="contact-icon" style={contactIconStyles}>
                   <FontAwesomeIcon icon={item.icon} />
                 </div>
                 <div style={contactContentStyles}>
@@ -360,6 +430,7 @@ function ContactPage({ language = 'en' }) {
                   {item.link ? (
                     <a 
                       href={item.link} 
+                      className="contact-value"
                       style={{ ...contactValueStyles, textDecoration: 'none', color: '#1F2937' }}
                       onMouseEnter={(e) => e.target.style.color = '#FFD700'}
                       onMouseLeave={(e) => e.target.style.color = '#1F2937'}
@@ -367,7 +438,7 @@ function ContactPage({ language = 'en' }) {
                       {item.value}
                     </a>
                   ) : (
-                    <div style={contactValueStyles}>{item.value}</div>
+                    <div className="contact-value" style={contactValueStyles}>{item.value}</div>
                   )}
                 </div>
               </div>
@@ -376,11 +447,12 @@ function ContactPage({ language = 'en' }) {
             {/* Social Links */}
             <div style={socialLinksStyles}>
               <button 
+                className="social-button"
                 style={socialButtonStyles}
                 onMouseEnter={(e) => {
                   e.target.style.backgroundColor = '#1877f2';
                   e.target.style.color = 'white';
-                  e.target.style.transform = 'translateY(-3px)';
+                  e.target.style.transform = 'translateY(-2px)';
                 }}
                 onMouseLeave={(e) => {
                   e.target.style.backgroundColor = '#F3F4F6';
@@ -391,11 +463,12 @@ function ContactPage({ language = 'en' }) {
                 <FontAwesomeIcon icon={faFacebook} />
               </button>
               <button 
+                className="social-button"
                 style={socialButtonStyles}
                 onMouseEnter={(e) => {
                   e.target.style.backgroundColor = '#E4405F';
                   e.target.style.color = 'white';
-                  e.target.style.transform = 'translateY(-3px)';
+                  e.target.style.transform = 'translateY(-2px)';
                 }}
                 onMouseLeave={(e) => {
                   e.target.style.backgroundColor = '#F3F4F6';
@@ -406,11 +479,12 @@ function ContactPage({ language = 'en' }) {
                 <FontAwesomeIcon icon={faInstagram} />
               </button>
               <button 
+                className="social-button"
                 style={socialButtonStyles}
                 onMouseEnter={(e) => {
                   e.target.style.backgroundColor = '#1DA1F2';
                   e.target.style.color = 'white';
-                  e.target.style.transform = 'translateY(-3px)';
+                  e.target.style.transform = 'translateY(-2px)';
                 }}
                 onMouseLeave={(e) => {
                   e.target.style.backgroundColor = '#F3F4F6';
@@ -421,12 +495,13 @@ function ContactPage({ language = 'en' }) {
                 <FontAwesomeIcon icon={faTwitter} />
               </button>
               <button 
+                className="social-button"
                 style={socialButtonStyles}
                 onClick={handleWhatsAppClick}
                 onMouseEnter={(e) => {
                   e.target.style.backgroundColor = '#25D366';
                   e.target.style.color = 'white';
-                  e.target.style.transform = 'translateY(-3px)';
+                  e.target.style.transform = 'translateY(-2px)';
                 }}
                 onMouseLeave={(e) => {
                   e.target.style.backgroundColor = '#F3F4F6';
@@ -441,27 +516,23 @@ function ContactPage({ language = 'en' }) {
 
           {/* Right Column - Contact Form */}
           <div className="form-section" style={formSectionStyles}>
-            <h2 style={formTitleStyles}>
-              <FontAwesomeIcon icon={faPaperPlane} style={{ color: '#FFD700', marginRight: '8px' }} />
-              {language === 'en' ? 'Send us a Message' : 'Turo mana Sako'}
+            <h2 className="form-title" style={formTitleStyles}>
+              <FontAwesomeIcon icon={faPaperPlane} />
+              {language === 'en' ? 'Send Message' : 'Aika Sako'}
             </h2>
-            <p style={formSubtitleStyles}>
+            <p className="form-subtitle" style={formSubtitleStyles}>
               {language === 'en' 
-                ? 'Fill out the form below and we\'ll get back to you within 24 hours.'
-                : 'Cike fom ɗin da ke ƙasa kuma za mu dawo gare ku cikin awanni 24.'}
+                ? 'Fill out the form and we\'ll respond within 24 hours.'
+                : 'Cike fom ɗin kuma za mu amsa cikin awanni 24.'}
             </p>
             
             {submitted && (
               <div style={successStyles}>
-                <FontAwesomeIcon icon={faCheckCircle} style={{ fontSize: '20px' }} />
+                <FontAwesomeIcon icon={faCheckCircle} />
                 <div>
-                  <strong>{language === 'en' ? 'Message Sent!' : 'An Turo Sako!'}</strong>
+                  <strong>{language === 'en' ? 'Message Sent!' : 'An Aika Sako!'}</strong>
                   <br />
-                  <span style={{ fontSize: '13px' }}>
-                    {language === 'en' 
-                      ? 'Thank you for reaching out. We\'ll respond shortly.'
-                      : 'Mungode da tuntuɓar mu. Za mu amsa nan ba da jimawa ba.'}
-                  </span>
+                  <span>{language === 'en' ? 'We\'ll respond shortly.' : 'Za mu amsa nan ba da jimawa ba.'}</span>
                 </div>
               </div>
             )}
@@ -472,6 +543,7 @@ function ContactPage({ language = 'en' }) {
                   {language === 'en' ? 'Full Name' : 'Cikakken Suna'} *
                 </label>
                 <input
+                  className="input"
                   type="text"
                   name="name"
                   value={formData.name}
@@ -482,7 +554,7 @@ function ContactPage({ language = 'en' }) {
                     ...inputStyles,
                     ...getInputFocusStyle('name')
                   }}
-                  placeholder={language === 'en' ? 'Enter your full name' : 'Rubuta mana cikakken sunan ku'}
+                  placeholder={language === 'en' ? 'Your name' : 'Sunan ku'}
                   required
                 />
               </div>
@@ -492,6 +564,7 @@ function ContactPage({ language = 'en' }) {
                   {language === 'en' ? 'Email Address' : 'Adireshin Email'} *
                 </label>
                 <input
+                  className="input"
                   type="email"
                   name="email"
                   value={formData.email}
@@ -502,7 +575,7 @@ function ContactPage({ language = 'en' }) {
                     ...inputStyles,
                     ...getInputFocusStyle('email')
                   }}
-                  placeholder={language === 'en' ? 'Enter your email address' : 'Shigar da adireshin email ɗin ku'}
+                  placeholder={language === 'en' ? 'Your email' : 'Email ɗin ku'}
                   required
                 />
               </div>
@@ -512,6 +585,7 @@ function ContactPage({ language = 'en' }) {
                   {language === 'en' ? 'Message' : 'Sako'} *
                 </label>
                 <textarea
+                  className="textarea"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
@@ -522,8 +596,8 @@ function ContactPage({ language = 'en' }) {
                     ...getInputFocusStyle('message')
                   }}
                   placeholder={language === 'en' 
-                    ? 'Tell us about your motorcycle needs or questions...' 
-                    : 'Faɗa mana buƙatun ku game da babura ko tambayoyinku...'}
+                    ? 'Tell us about your motorcycle needs...' 
+                    : 'Faɗa mana buƙatun ku game da babura...'}
                   required
                 />
               </div>
@@ -534,7 +608,7 @@ function ContactPage({ language = 'en' }) {
                 disabled={isLoading}
                 onMouseEnter={(e) => {
                   e.target.style.transform = 'translateY(-2px)';
-                  e.target.style.boxShadow = '0 8px 20px rgba(255,215,0,0.4)';
+                  e.target.style.boxShadow = '0 6px 15px rgba(255,215,0,0.3)';
                 }}
                 onMouseLeave={(e) => {
                   e.target.style.transform = 'translateY(0)';
@@ -544,12 +618,13 @@ function ContactPage({ language = 'en' }) {
                 {isLoading ? (
                   <>
                     <FontAwesomeIcon icon={faSpinner} spin />
-                    {language === 'en' ? 'Sending...' : 'Ana turawa...'}
+                    {language === 'en' ? 'Sending...' : 'Ana aikawa...'}
                   </>
                 ) : (
                   <>
                     <FontAwesomeIcon icon={faPaperPlane} />
-                    {language === 'en' ? 'Send Message' : 'Tura Sako'}
+                    {language === 'en' ? 'Send Message' : 'Aika Sako'}
+                    <FontAwesomeIcon icon={faArrowRight} style={{ fontSize: '12px' }} />
                   </>
                 )}
               </button>
