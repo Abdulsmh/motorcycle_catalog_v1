@@ -1,9 +1,8 @@
-// Import from the correct path - services folder
+// Use Supabase for fast, shared data
 export { 
   loadMotorcycles, 
   addMotorcycle, 
   deleteMotorcycle, 
   updateAvailability,
-  initializeDatabase,
-  imageToBase64
-} from '../services/firebase';
+  initializeDatabase
+} from '../services/supabase';

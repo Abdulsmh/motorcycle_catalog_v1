@@ -71,7 +71,7 @@ const addColorButtonStyles = {
 };
 
 const submitButtonStyles = {
-  backgroundColor: '#1a73e8',
+  backgroundColor: '#065F46',
   color: 'white',
   padding: '12px 24px',
   border: 'none',
@@ -97,6 +97,8 @@ function AddVehicleForm({ onAdd }) {
     brand: '',
     price: '',
     description: '',
+    description_en: '',
+    description_ha: '',
     colors: [{ name: '', code: '#FF0000', quantity: 1 }]
   });
   
@@ -151,12 +153,16 @@ function AddVehicleForm({ onAdd }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!vehicle.name || !vehicle.brand || !vehicle.price || !vehicle.description) {
+    if (!vehicle.name || !vehicle.brand || !vehicle.price) {
       alert('Please fill in all required fields');
       return;
     }
 
-    // Pass the images to the parent component
+    if (!mainImage) {
+      alert('Please select a main image for the motorcycle');
+      return;
+    }
+
     await onAdd(vehicle, mainImage, colorImages);
     
     // Reset form
@@ -165,6 +171,8 @@ function AddVehicleForm({ onAdd }) {
       brand: '',
       price: '',
       description: '',
+      description_en: '',
+      description_ha: '',
       colors: [{ name: '', code: '#FF0000', quantity: 1 }]
     });
     setMainImage(null);
@@ -184,7 +192,7 @@ function AddVehicleForm({ onAdd }) {
             value={vehicle.name}
             onChange={handleChange}
             style={inputStyles}
-            placeholder="e.g., Honda-Dream"
+            placeholder="e.g., Yamaha MT-15"
             required
           />
         </div>
@@ -197,7 +205,7 @@ function AddVehicleForm({ onAdd }) {
             value={vehicle.brand}
             onChange={handleChange}
             style={inputStyles}
-            placeholder="e.g., Haojue, Honda, lucky-Plus"
+            placeholder="e.g., Yamaha, Honda, Lifan"
             required
           />
         </div>
@@ -210,20 +218,30 @@ function AddVehicleForm({ onAdd }) {
             value={vehicle.price}
             onChange={handleChange}
             style={inputStyles}
-            placeholder="e.g., 933500"
+            placeholder="e.g., 850000"
             required
           />
         </div>
 
         <div style={inputGroupStyles}>
-          <label style={labelStyles}>Description *</label>
+          <label style={labelStyles}>Description (English)</label>
           <textarea
-            name="description"
-            value={vehicle.description}
+            name="description_en"
+            value={vehicle.description_en}
             onChange={handleChange}
             style={textareaStyles}
-            placeholder="Describe the motorcycle features, condition, etc."
-            required
+            placeholder="Describe the motorcycle features, condition, etc. in English"
+          />
+        </div>
+
+        <div style={inputGroupStyles}>
+          <label style={labelStyles}>Description (Hausa)</label>
+          <textarea
+            name="description_ha"
+            value={vehicle.description_ha}
+            onChange={handleChange}
+            style={textareaStyles}
+            placeholder="Describe the motorcycle in Hausa language"
           />
         </div>
 

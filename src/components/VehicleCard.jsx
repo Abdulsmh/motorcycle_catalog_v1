@@ -98,31 +98,8 @@ const colorDotStyles = (colorCode) => ({
   boxShadow: '0 1px 2px rgba(0,0,0,0.1)'
 });
 
-// Mobile responsive styles
-const mobileStyles = `
-  @media (max-width: 640px) {
-    .vehicle-card-image {
-      height: 180px !important;
-    }
-    .vehicle-card-content {
-      padding: 12px !important;
-    }
-    .vehicle-card-name {
-      font-size: 16px !important;
-    }
-    .vehicle-card-price {
-      font-size: 20px !important;
-    }
-    .vehicle-card-description {
-      font-size: 13px !important;
-    }
-  }
-`;
-
 function VehicleCard({ vehicle, onClick, language }) {
-  if (!vehicle) {
-    return null;
-  }
+  if (!vehicle) return null;
 
   const getDescription = () => {
     if (language === 'en') {
@@ -132,76 +109,70 @@ function VehicleCard({ vehicle, onClick, language }) {
   };
 
   const description = getDescription();
-  
   const colors = vehicle.colors || [];
   const colorCount = colors.length;
   const firstThreeColors = colors.slice(0, 3);
   const hasMoreColors = colors.length > 3;
   const price = vehicle.price || 0;
-  const imageUrl = vehicle.mainImage || vehicle.mainImageUrl || 'https://placehold.co/400x300/065F46/white?text=Motorcycle';
+  const imageUrl = vehicle.main_image_url || 'https://placehold.co/400x300/065F46/white?text=Motorcycle';
 
   return (
-    <>
-      <style>{mobileStyles}</style>
-      <div 
-        style={cardStyles}
-        onClick={() => onClick && onClick(vehicle)}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-8px)';
-          e.currentTarget.style.boxShadow = '0 20px 25px -12px rgba(0,0,0,0.2)';
-          const img = e.currentTarget.querySelector('.vehicle-card-image');
-          if (img) img.style.transform = 'scale(1.05)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
-          const img = e.currentTarget.querySelector('.vehicle-card-image');
-          if (img) img.style.transform = 'scale(1)';
-        }}
-      >
-        <div style={{ overflow: 'hidden' }}>
-          <img 
-            className="vehicle-card-image"
-            src={imageUrl} 
-            alt={vehicle.name || 'Motorcycle'}
-            style={imageStyles}
-            onError={(e) => {
-              e.target.src = 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=400';
-            }}
-          />
-        </div>
-        <div className="vehicle-card-content" style={contentStyles}>
-          <h3 className="vehicle-card-name" style={nameStyles}>{vehicle.name || 'Unknown Model'}</h3>
-          <p style={brandStyles}>{vehicle.brand || 'Unknown Brand'}</p>
-          <p className="vehicle-card-price" style={priceStyles}>{formatNaira(price)}</p>
-          {description && (
-            <p className="vehicle-card-description" style={descriptionStyles}>
-              {description}
-            </p>
-          )}
-          <div style={colorInfoStyles}>
-            <span>🎨 {colorCount} {language === 'en' ? 'colors' : 'launuka'}</span>
-            {colorCount > 0 && (
-              <div style={colorDotsStyles}>
-                {firstThreeColors.map((color, idx) => (
-                  <div 
-                    key={idx} 
-                    style={colorDotStyles(color.code || '#CCCCCC')} 
-                    title={color.name || 'Color'} 
-                  />
-                ))}
-                {hasMoreColors && <span>+{colorCount - 3}</span>}
-              </div>
-            )}
-          </div>
-          <span style={availabilityStyles(vehicle.available !== false)}>
-            {vehicle.available !== false 
-              ? (language === 'en' ? '✓ Available' : '✓ Akwai') 
-              : (language === 'en' ? '✗ Sold Out' : '✗ An sayar')}
-          </span>
-        </div>
+    <div 
+      style={cardStyles}
+      onClick={() => onClick && onClick(vehicle)}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'translateY(-8px)';
+        e.currentTarget.style.boxShadow = '0 20px 25px -12px rgba(0,0,0,0.2)';
+        const img = e.currentTarget.querySelector('.vehicle-card-image');
+        if (img) img.style.transform = 'scale(1.05)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+        const img = e.currentTarget.querySelector('.vehicle-card-image');
+        if (img) img.style.transform = 'scale(1)';
+      }}
+    >
+      <div style={{ overflow: 'hidden' }}>
+        <img 
+          className="vehicle-card-image"
+          src={imageUrl} 
+          alt={vehicle.name || 'Motorcycle'}
+          style={imageStyles}
+          onError={(e) => {
+            e.target.src = 'https://placehold.co/400x300/065F46/white?text=No+Image';
+          }}
+        />
       </div>
-    </>
+      <div style={contentStyles}>
+        <h3 style={nameStyles}>{vehicle.name || 'Unknown Model'}</h3>
+        <p style={brandStyles}>{vehicle.brand || 'Unknown Brand'}</p>
+        <p style={priceStyles}>{formatNaira(price)}</p>
+        {description && (
+          <p style={descriptionStyles}>{description}</p>
+        )}
+        <div style={colorInfoStyles}>
+          <span>🎨 {colorCount} {language === 'en' ? 'colors' : 'launuka'}</span>
+          {colorCount > 0 && (
+            <div style={colorDotsStyles}>
+              {firstThreeColors.map((color, idx) => (
+                <div 
+                  key={idx} 
+                  style={colorDotStyles(color.code || '#CCCCCC')} 
+                  title={color.name || 'Color'} 
+                />
+              ))}
+              {hasMoreColors && <span>+{colorCount - 3}</span>}
+            </div>
+          )}
+        </div>
+        <span style={availabilityStyles(vehicle.available !== false)}>
+          {vehicle.available !== false 
+            ? (language === 'en' ? '✓ Available' : '✓ Akwai') 
+            : (language === 'en' ? '✗ Sold Out' : '✗ An sayar')}
+        </span>
+      </div>
+    </div>
   );
 }
 
