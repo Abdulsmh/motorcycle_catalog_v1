@@ -1,9 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 
-// CORRECT URL - ends with .co
-const supabaseUrl = 'https://ogxsiynfxxejxftllpgp.supabase.co';
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9neHNpeW5meHhlanhmdGxscGdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxNzU4NDYsImV4cCI6MjA4OTc1MTg0Nn0.E2rwYBRkiZ0mhYePMZY9CAXhoQ1VBQ_4PkiX2faTTgU';  // Your actual publishable key
 
+const supabaseUrl = 'https://ogxsiynfxxejxftllpgp.supabase.co';
+const supabaseAnonKey = 'sb_publishable_7gVjAMYha9S30A01CGUwsw_JZM2Y9Ne';
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Upload image to Supabase Storage
