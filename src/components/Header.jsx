@@ -254,7 +254,8 @@ function Header({ language, setLanguage }) {
           ))}
           <button onClick={toggleLanguage} style={languageButtonStyles}>
             <FontAwesomeIcon icon={faLanguage} />
-            {language === 'en' ? ' Hausa' : ' English'}
+            {/* {language === 'en' ? ' Hausa' : ' English'} */}
+            English
           </button>
           
           {showAdminButton && (
@@ -305,7 +306,8 @@ function Header({ language, setLanguage }) {
               onMouseLeave={(e) => e.target.style.backgroundColor = '#047857'}
             >
               <FontAwesomeIcon icon={faLanguage} />
-              {language === 'en' ? ' Hausa' : ' English'}
+              {/* {language === 'en' ? ' Hausa' : ' English'} */}
+              English
             </button>
             
             {showAdminButton && (
