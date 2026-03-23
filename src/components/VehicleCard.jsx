@@ -212,7 +212,7 @@ function VehicleCard({ vehicle, onClick, language }) {
   const firstThreeColors = colors.slice(0, 3);
   const hasMoreColors = colors.length > 3;
   const price = vehicle.price || 0;
-  const imageUrl = vehicle.main_image_url || 'https://picsum.photos/id/100/400/300';
+  const imageUrl = vehicle.main_image_url || 'https://www.vecteezy.com/free-photos/motorcycle-wallpaper';
 
   return (
     <div 
