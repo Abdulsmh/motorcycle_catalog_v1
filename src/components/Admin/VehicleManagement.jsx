@@ -10,9 +10,11 @@ import {
   faCheckCircle,
   faTimesCircle,
   faImage,
-  faSearch,
-  faFilter
+  faSearch
 } from '@fortawesome/free-solid-svg-icons';
+
+// Motorcycle placeholder image (working URL)
+const MOTORCYCLE_PLACEHOLDER = 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=100&h=100&fit=crop';
 
 const containerStyles = {
   background: 'linear-gradient(135deg, #ffffff 0%, #f9fafb 100%)',
@@ -208,8 +210,7 @@ function VehicleManagement({ vehicles, onDelete }) {
   };
 
   const handleViewDetails = (vehicle) => {
-    // You can implement a modal preview here
-    alert(`Viewing details for: ${vehicle.name}\n\nBrand: ${vehicle.brand}\nPrice: ${formatNaira(vehicle.price)}\nColors: ${vehicle.colors.length} options\nStatus: ${vehicle.available ? 'Available' : 'Sold Out'}`);
+    alert(`🏍️ ${vehicle.name}\n\nBrand: ${vehicle.brand}\nPrice: ${formatNaira(vehicle.price)}\nColors: ${vehicle.colors?.length || 0} options\nStatus: ${vehicle.available ? 'Available' : 'Sold Out'}`);
   };
 
   return (
@@ -269,11 +270,11 @@ function VehicleManagement({ vehicles, onDelete }) {
                 <tr key={vehicle.id} style={{ transition: 'all 0.3s ease' }}>
                   <td style={tdStyles}>
                     <img 
-                      src={vehicle.main_image_url || vehicle.mainImage || 'https://via.placeholder.com/50x50?text=No+Image'} 
+                      src={vehicle.main_image_url || vehicle.mainImage || MOTORCYCLE_PLACEHOLDER} 
                       alt={vehicle.name}
                       style={thumbnailStyles}
                       onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/50x50?text=No+Image';
+                        e.target.src = MOTORCYCLE_PLACEHOLDER;
                       }}
                     />
                   </td>

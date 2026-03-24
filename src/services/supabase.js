@@ -111,9 +111,15 @@ export const loadMotorcycles = async () => {
 
 export const addMotorcycle = async (motorcycle, mainImageFile, colorImageFiles) => {
   try {
+    console.log('Starting addMotorcycle...');
     let mainImageUrl = '';
+    
     if (mainImageFile) {
+      console.log('Uploading main image:', mainImageFile.name);
       mainImageUrl = await uploadImage(mainImageFile, `motorcycles/${Date.now()}/main`);
+      console.log('Main image URL:', mainImageUrl);
+    } else {
+      console.warn('No main image file provided');
     }
     
     const updatedColors = await Promise.all(
@@ -121,6 +127,7 @@ export const addMotorcycle = async (motorcycle, mainImageFile, colorImageFiles) 
         const colorImageFile = colorImageFiles[index];
         let images = [];
         if (colorImageFile) {
+          console.log(`Uploading color image for ${color.name}:`, colorImageFile.name);
           const url = await uploadImage(colorImageFile, `motorcycles/${Date.now()}/color_${index}`);
           if (url) images = [url];
         }
@@ -136,7 +143,7 @@ export const addMotorcycle = async (motorcycle, mainImageFile, colorImageFiles) 
     const newMotorcycle = {
       name: motorcycle.name,
       brand: motorcycle.brand,
-      price: parseInt(motorcycle.price) || 0,
+      price: parseInt(motorcycle.price),
       description_en: motorcycle.description_en || motorcycle.description || '',
       description_ha: motorcycle.description_ha || '',
       main_image_url: mainImageUrl,
@@ -144,19 +151,25 @@ export const addMotorcycle = async (motorcycle, mainImageFile, colorImageFiles) 
       available: true
     };
     
+    console.log('Saving to database:', newMotorcycle);
+    
     const { data, error } = await supabase
       .from('motorcycles')
       .insert([newMotorcycle])
       .select();
 
-    if (error) throw error;
+    if (error) {
+      console.error('Supabase insert error:', error);
+      throw error;
+    }
+    
+    console.log('Successfully added:', data);
     return data[0];
   } catch (error) {
-    console.error('Add error:', error);
+    console.error('Add error details:', error);
     throw error;
   }
 };
-
 export const deleteMotorcycle = async (id) => {
   try {
     const { data: motorcycle } = await supabase

@@ -9,6 +9,9 @@ import {
   faArrowRight
 } from '@fortawesome/free-solid-svg-icons';
 
+// Motorcycle placeholder image (working URL)
+const MOTORCYCLE_PLACEHOLDER = 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=400&h=300&fit=crop';
+
 const formatNaira = (price) => {
   if (!price && price !== 0) return '₦0';
   return new Intl.NumberFormat('en-NG', {
@@ -44,8 +47,7 @@ const badgeStyles = {
   display: 'flex',
   alignItems: 'center',
   gap: '5px',
-  boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-  backdropFilter: 'blur(4px)'
+  boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
 };
 
 const imageWrapperStyles = {
@@ -58,11 +60,7 @@ const imageStyles = {
   width: '100%',
   height: '220px',
   objectFit: 'cover',
-  transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
-  filter: 'brightness(0.95)',
-  '&:hover': {
-    filter: 'brightness(1)'
-  }
+  transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
 };
 
 const overlayStyles = {
@@ -212,7 +210,7 @@ function VehicleCard({ vehicle, onClick, language }) {
   const firstThreeColors = colors.slice(0, 3);
   const hasMoreColors = colors.length > 3;
   const price = vehicle.price || 0;
-  const imageUrl = vehicle.main_image_url || 'https://www.vecteezy.com/free-photos/motorcycle-wallpaper';
+  const imageUrl = vehicle.main_image_url || vehicle.mainImage || MOTORCYCLE_PLACEHOLDER;
 
   return (
     <div 
@@ -239,13 +237,11 @@ function VehicleCard({ vehicle, onClick, language }) {
         if (viewBtn) viewBtn.style.transform = 'translateY(10px)';
       }}
     >
-      {/* Premium Badge */}
       <div style={badgeStyles}>
         <FontAwesomeIcon icon={faStar} style={{ fontSize: '10px' }} />
         Featured
       </div>
 
-      {/* Image Section */}
       <div style={imageWrapperStyles}>
         <img 
           className="vehicle-card-image"
@@ -253,7 +249,7 @@ function VehicleCard({ vehicle, onClick, language }) {
           alt={vehicle.name || 'Motorcycle'}
           style={imageStyles}
           onError={(e) => {
-            e.target.src = 'https://picsum.photos/id/100/400/300';
+            e.target.src = MOTORCYCLE_PLACEHOLDER;
           }}
         />
         <div className="card-overlay" style={overlayStyles}>
@@ -264,7 +260,6 @@ function VehicleCard({ vehicle, onClick, language }) {
         </div>
       </div>
 
-      {/* Content Section */}
       <div style={contentStyles}>
         <div style={nameStyles}>
           <span>{vehicle.name || 'Unknown Model'}</span>

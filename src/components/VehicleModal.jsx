@@ -8,12 +8,14 @@ import {
   faNairaSign,
   faMotorcycle,
   faCheckCircle,
-  faStar,
   faShare,
   faHeart,
   faShoppingCart
 } from '@fortawesome/free-solid-svg-icons';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+
+// Motorcycle placeholder image (working URL)
+const MOTORCYCLE_PLACEHOLDER = 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=400&h=300&fit=crop';
 
 const formatNaira = (price) => {
   if (!price && price !== 0) return '₦0';
@@ -336,11 +338,11 @@ function VehicleModal({ vehicle, isOpen, onClose, language }) {
     ? (vehicle.description_en || vehicle.description || '') 
     : (vehicle.description_ha || vehicle.description || '');
     
-  const colorText = language === 'en' ? 'Available Colors' : 'Launukan Da Muke dasu';
+  const colorText = language === 'en' ? 'Available Colors' : 'Launuka Masu Samuwa';
   const selectedColorText = language === 'en' ? 'Selected Color' : 'Launin Da Ka Zaɓa';
   const availableText = language === 'en' ? 'available' : 'akwai';
   const quantityText = language === 'en' ? 'Quantity' : 'Adadi';
-  const totalText = language === 'en' ? 'Total Price' : 'Jimillar Kuɗi';
+  const totalText = language === 'en' ? 'Total Price' : 'Jimlar Kuɗi';
   const inquireText = language === 'en' ? 'Inquire via WhatsApp' : 'Tambaya ta WhatsApp';
   const specificationsText = language === 'en' ? 'Specifications' : 'Bayani';
 
@@ -391,7 +393,7 @@ function VehicleModal({ vehicle, isOpen, onClose, language }) {
     }
   };
 
-  const currentImage = selectedColor?.images?.[0] || vehicle.main_image_url || 'https://picsum.photos/id/100/400/300';
+  const currentImage = selectedColor?.images?.[0] || vehicle.main_image_url || MOTORCYCLE_PLACEHOLDER;
 
   return (
     <>
@@ -429,7 +431,7 @@ function VehicleModal({ vehicle, isOpen, onClose, language }) {
                   alt={vehicle.name}
                   style={mainImageStyles}
                   onError={(e) => {
-                    e.target.src = 'https://picsum.photos/id/100/400/300';
+                    e.target.src = MOTORCYCLE_PLACEHOLDER;
                   }}
                 />
                 {vehicle.colors && vehicle.colors.length > 0 && (
@@ -499,7 +501,7 @@ function VehicleModal({ vehicle, isOpen, onClose, language }) {
                 </div>
 
                 <p className="modal-price" style={priceStyles}>
-                  <FontAwesomeIcon  style={{ marginRight: '4px' }} />
+                  <FontAwesomeIcon icon={faNairaSign} style={{ marginRight: '4px' }} />
                   {formatNaira(vehicle.price)} <span style={{ fontSize: '14px', fontWeight: 'normal', color: '#6B7280' }}>each</span>
                 </p>
                 

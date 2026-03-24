@@ -11,9 +11,11 @@ import {
   faTrash,
   faUpload,
   faCheckCircle,
-  faTimesCircle,
   faInfoCircle
 } from '@fortawesome/free-solid-svg-icons';
+
+// Motorcycle placeholder for preview
+const MOTORCYCLE_PLACEHOLDER = 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=100&h=100&fit=crop';
 
 const formStyles = {
   background: 'linear-gradient(135deg, #ffffff 0%, #f9fafb 100%)',
@@ -255,7 +257,6 @@ function AddVehicleForm({ onAdd }) {
   const removeColor = (index) => {
     const updatedColors = vehicle.colors.filter((_, i) => i !== index);
     setVehicle({ ...vehicle, colors: updatedColors });
-    // Remove associated color image
     const newColorImages = { ...colorImages };
     delete newColorImages[index];
     setColorImages(newColorImages);
@@ -279,7 +280,6 @@ function AddVehicleForm({ onAdd }) {
     try {
       await onAdd(vehicle, mainImage, colorImages);
       
-      // Reset form
       setVehicle({
         name: '',
         brand: '',
@@ -501,7 +501,10 @@ function AddVehicleForm({ onAdd }) {
                   <img 
                     src={URL.createObjectURL(colorImages[index])} 
                     alt="Color preview" 
-                    style={previewImageStyles} 
+                    style={previewImageStyles}
+                    onError={(e) => {
+                      e.target.src = MOTORCYCLE_PLACEHOLDER;
+                    }}
                   />
                 )}
               </div>
