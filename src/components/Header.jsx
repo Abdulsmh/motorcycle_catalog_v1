@@ -257,10 +257,10 @@ function Header({ language, setLanguage }) {
   };
 
   const navItems = [
-    { path: '/', label_en: 'Home', label_ha: 'Gida', icon: faHome },
-    { path: '/catalog', label_en: 'Catalog', label_ha: 'Kataloji', icon: faMotorcycle },
-    { path: '/about', label_en: 'About', label_ha: 'Game da', icon: faInfoCircle },
-    { path: '/contact', label_en: 'Contact', label_ha: 'Tuntuɓi', icon: faPhone }
+    { path: '/', label_en: 'Home', label_ha: 'Farko', icon: faHome },
+    { path: '/catalog', label_en: 'Catalog', label_ha: 'wurin Kaya', icon: faMotorcycle },
+    { path: '/about', label_en: 'About', label_ha: 'Game damu', icon: faInfoCircle },
+    { path: '/contact', label_en: 'Contact', label_ha: 'Tuntuɓemu', icon: faPhone }
   ];
 
   const toggleLanguage = () => {

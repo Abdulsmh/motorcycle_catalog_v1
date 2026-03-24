@@ -314,10 +314,10 @@ const mobileStyles = `
 
 function AboutPage({ language = 'en' }) {
   const stats = [
-    { number: '500+', label: language === 'en' ? 'Motorcycles Sold' : 'Babura da aka Sayar' },
+    { number: '500+', label: language === 'en' ? 'Motorcycles Sold' : 'Baburan da aka Sayar' },
     { number: '50+', label: language === 'en' ? 'Happy Sellers' : 'Masu Siyarwa' },
-    { number: '1000+', label: language === 'en' ? 'Customers' : 'Abokan Ciniki' },
-    { number: '4.9', label: language === 'en' ? 'Rating' : 'Ƙima' }
+    { number: '1000+', label: language === 'en' ? 'Customers' : 'Abokan Cinikayya' },
+    { number: '4.9', label: language === 'en' ? 'Rating' : 'Ƙarramawa' }
   ];
 
   const features = [
@@ -330,10 +330,10 @@ function AboutPage({ language = 'en' }) {
     },
     {
       icon: faGlobe,
-      title: language === 'en' ? 'Digital Catalog' : 'Kataloji na Dijital',
+      title: language === 'en' ? 'Digital Catalog' : 'Wurin Kaya na Zamani',
       description: language === 'en'
         ? 'Share your catalog with a single link. No more sending individual photos.'
-        : 'Raba kataloji ɗinku da mahada ɗaya. Ba sauran aika hotuna daban-daban.'
+        : 'tura wajen kayanka na zamani. Ba sauran aika hotuna daban-daban.'
     },
     {
       icon: faShieldAlt,
