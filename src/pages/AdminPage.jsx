@@ -9,15 +9,12 @@ import {
   faCopy,
   faSpinner,
   faExclamationTriangle,
-  faChartLine,
-  faUsers,
-  faShoppingCart,
   faCrown
 } from '@fortawesome/free-solid-svg-icons';
 import AdminLogin from '../components/Admin/AdminLogin';
 import AddVehicleForm from '../components/Admin/AddVehicleForm';
 import VehicleManagement from '../components/Admin/VehicleManagement';
-import { loadMotorcycles, addMotorcycle, deleteMotorcycle } from '../utils/storage';
+import { loadMotorcycles, addMotorcycle, deleteMotorcycle, updateMotorcyclePrice, updateMotorcycleColors } from '../utils/storage';
 
 // Styles
 const containerStyles = {
@@ -68,7 +65,6 @@ const logoutButtonStyles = {
   gap: '10px'
 };
 
-// Stats card styles
 const statsGridStyles = {
   display: 'grid',
   gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
@@ -180,7 +176,60 @@ const retryButtonStyles = {
   transition: 'all 0.3s ease'
 };
 
-// Mobile responsive styles
+const modalOverlayStyles = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: 'rgba(0,0,0,0.7)',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  zIndex: 1000
+};
+
+const modalContentStyles = {
+  backgroundColor: 'white',
+  padding: '24px',
+  borderRadius: '20px',
+  width: '90%',
+  maxWidth: '400px',
+  textAlign: 'center'
+};
+
+const inputStyles = {
+  width: '100%',
+  padding: '12px',
+  border: '2px solid #E5E7EB',
+  borderRadius: '12px',
+  fontSize: '16px',
+  outline: 'none',
+  marginTop: '8px'
+};
+
+const confirmButtonStyles = {
+  background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+  color: '#0B3B2F',
+  padding: '10px 24px',
+  border: 'none',
+  borderRadius: '40px',
+  cursor: 'pointer',
+  fontWeight: 'bold',
+  flex: 1
+};
+
+const cancelButtonStyles = {
+  background: '#F3F4F6',
+  color: '#4B5563',
+  padding: '10px 24px',
+  border: 'none',
+  borderRadius: '40px',
+  cursor: 'pointer',
+  fontWeight: 'bold',
+  flex: 1
+};
+
 const mobileStyles = `
   @media (max-width: 768px) {
     .admin-header {
@@ -206,11 +255,6 @@ const mobileStyles = `
       font-size: 20px !important;
     }
   }
-  
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.05); opacity: 0.8; }
-  }
 `;
 
 function AdminPage() {
@@ -224,6 +268,14 @@ function AdminPage() {
     totalStock: 0,
     totalValue: 0
   });
+  
+  // Edit Price State
+  const [editingPrice, setEditingPrice] = useState(null);
+  const [newPrice, setNewPrice] = useState('');
+  
+  // Manage Colors State
+  const [editingColors, setEditingColors] = useState(null);
+  const [tempColors, setTempColors] = useState([]);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -327,6 +379,66 @@ function AdminPage() {
       } finally {
         setLoading(false);
       }
+    }
+  };
+
+  // Edit Price Functions
+  const handleEditPrice = (id, currentPrice) => {
+    setEditingPrice({ id, currentPrice });
+    setNewPrice(currentPrice);
+  };
+
+  const updatePrice = async () => {
+    if (!newPrice || newPrice <= 0) {
+      alert('Please enter a valid price');
+      return;
+    }
+    try {
+      setLoading(true);
+      await updateMotorcyclePrice(editingPrice.id, parseInt(newPrice));
+      await loadMotorcycleData();
+      setEditingPrice(null);
+      setNewPrice('');
+      alert('💰 Price updated successfully!');
+    } catch (err) {
+      console.error(err);
+      alert('Failed to update price');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Manage Colors Functions
+  const handleManageColors = (motorcycle) => {
+    setEditingColors(motorcycle);
+    setTempColors(JSON.parse(JSON.stringify(motorcycle.colors || [])));
+  };
+
+  const handleRemoveColor = (index) => {
+    const newColors = [...tempColors];
+    newColors.splice(index, 1);
+    setTempColors(newColors);
+  };
+
+  const handleUpdateQuantity = (index, newQuantity) => {
+    const newColors = [...tempColors];
+    newColors[index].quantity = parseInt(newQuantity) || 0;
+    setTempColors(newColors);
+  };
+
+  const saveColorChanges = async () => {
+    try {
+      setLoading(true);
+      await updateMotorcycleColors(editingColors.id, tempColors);
+      await loadMotorcycleData();
+      setEditingColors(null);
+      setTempColors([]);
+      alert('🎨 Colors updated successfully!');
+    } catch (err) {
+      console.error(err);
+      alert('Failed to update colors');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -473,7 +585,72 @@ function AdminPage() {
         <VehicleManagement 
           vehicles={motorcycles} 
           onDelete={handleDeleteMotorcycle}
+          onEditPrice={handleEditPrice}
+          onManageColors={handleManageColors}
         />
+
+        {/* Edit Price Modal */}
+        {editingPrice && (
+          <div style={modalOverlayStyles} onClick={() => setEditingPrice(null)}>
+            <div style={modalContentStyles} onClick={(e) => e.stopPropagation()}>
+              <h3 style={{ marginBottom: '16px' }}>Edit Price</h3>
+              <input
+                type="number"
+                value={newPrice}
+                onChange={(e) => setNewPrice(e.target.value)}
+                style={inputStyles}
+                placeholder="Enter new price in Naira"
+              />
+              <div style={{ display: 'flex', gap: '12px', marginTop: '20px' }}>
+                <button onClick={updatePrice} style={confirmButtonStyles}>Update</button>
+                <button onClick={() => setEditingPrice(null)} style={cancelButtonStyles}>Cancel</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Manage Colors Modal */}
+        {editingColors && (
+          <div style={modalOverlayStyles} onClick={() => setEditingColors(null)}>
+            <div style={{ ...modalContentStyles, maxWidth: '500px' }} onClick={(e) => e.stopPropagation()}>
+              <h3 style={{ marginBottom: '16px' }}>Manage Colors for {editingColors.name}</h3>
+              {tempColors.length === 0 ? (
+                <p>No colors available. Add colors using the Add Vehicle form.</p>
+              ) : (
+                <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                  {tempColors.map((color, idx) => (
+                    <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px', padding: '12px', border: '1px solid #E5E7EB', borderRadius: '12px' }}>
+                      <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: color.code, border: '1px solid #ddd' }} />
+                      <div style={{ flex: 1 }}>
+                        <strong>{color.name}</strong>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '4px' }}>
+                          <span style={{ fontSize: '12px' }}>Quantity:</span>
+                          <input
+                            type="number"
+                            value={color.quantity}
+                            onChange={(e) => handleUpdateQuantity(idx, e.target.value)}
+                            style={{ width: '70px', padding: '4px', borderRadius: '6px', border: '1px solid #ddd' }}
+                            min="0"
+                          />
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => handleRemoveColor(idx)}
+                        style={{ background: '#FEE2E2', color: '#DC2626', border: 'none', borderRadius: '20px', padding: '6px 12px', cursor: 'pointer' }}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div style={{ display: 'flex', gap: '12px', marginTop: '20px' }}>
+                <button onClick={saveColorChanges} style={confirmButtonStyles}>Save Changes</button>
+                <button onClick={() => setEditingColors(null)} style={cancelButtonStyles}>Cancel</button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

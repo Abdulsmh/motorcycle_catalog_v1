@@ -272,7 +272,7 @@ function VehicleCard({ vehicle, onClick, language }) {
           </span>
         </div>
         
-        <p style={priceStyles}>{formatNaira(price)}</p>
+        <p style={priceStyles}>{(price)}</p>
         
         {description && (
           <p style={descriptionStyles}>{description}</p>

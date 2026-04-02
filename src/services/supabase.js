@@ -208,6 +208,37 @@ export const deleteMotorcycle = async (id) => {
     throw error;
   }
 };
+// Update motorcycle price
+export const updateMotorcyclePrice = async (id, newPrice) => {
+  try {
+    const { data, error } = await supabase
+      .from('motorcycles')
+      .update({ price: newPrice })
+      .eq('id', id)
+      .select();
+    if (error) throw error;
+    return data[0];
+  } catch (error) {
+    console.error('Error updating price:', error);
+    throw error;
+  }
+};
+
+// Update motorcycle colors
+export const updateMotorcycleColors = async (id, newColors) => {
+  try {
+    const { data, error } = await supabase
+      .from('motorcycles')
+      .update({ colors: newColors })
+      .eq('id', id)
+      .select();
+    if (error) throw error;
+    return data[0];
+  } catch (error) {
+    console.error('Error updating colors:', error);
+    throw error;
+  }
+};
 
 export const updateAvailability = async (id, available) => {
   try {

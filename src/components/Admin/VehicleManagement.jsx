@@ -10,7 +10,8 @@ import {
   faCheckCircle,
   faTimesCircle,
   faImage,
-  faSearch
+  faSearch,
+  faEdit
 } from '@fortawesome/free-solid-svg-icons';
 
 // Motorcycle placeholder image (working URL)
@@ -85,7 +86,7 @@ const tableWrapperStyles = {
 const tableStyles = {
   width: '100%',
   borderCollapse: 'collapse',
-  minWidth: '800px'
+  minWidth: '900px'
 };
 
 const thStyles = {
@@ -106,6 +107,52 @@ const tdStyles = {
   color: '#374151'
 };
 
+const viewButtonStyles = {
+  background: 'rgba(255,215,0,0.1)',
+  color: '#FFD700',
+  padding: '8px 16px',
+  border: '1px solid rgba(255,215,0,0.3)',
+  borderRadius: '40px',
+  cursor: 'pointer',
+  fontSize: '12px',
+  fontWeight: 'bold',
+  transition: 'all 0.3s ease',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px'
+};
+
+const editButtonStyles = {
+  background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+  color: '#0B3B2F',
+  padding: '8px 16px',
+  border: 'none',
+  borderRadius: '40px',
+  cursor: 'pointer',
+  fontSize: '12px',
+  fontWeight: 'bold',
+  transition: 'all 0.3s ease',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+  boxShadow: '0 2px 4px rgba(255,215,0,0.2)'
+};
+
+const manageColorsButtonStyles = {
+  background: '#FEF9E6',
+  color: '#FFD700',
+  padding: '8px 16px',
+  border: '1px solid rgba(255,215,0,0.3)',
+  borderRadius: '40px',
+  cursor: 'pointer',
+  fontSize: '12px',
+  fontWeight: 'bold',
+  transition: 'all 0.3s ease',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px'
+};
+
 const deleteButtonStyles = {
   background: 'linear-gradient(135deg, #DC2626 0%, #B91C1C 100%)',
   color: 'white',
@@ -120,22 +167,6 @@ const deleteButtonStyles = {
   alignItems: 'center',
   gap: '8px',
   boxShadow: '0 2px 4px rgba(220,38,38,0.2)'
-};
-
-const viewButtonStyles = {
-  background: 'rgba(255,215,0,0.1)',
-  color: '#FFD700',
-  padding: '8px 16px',
-  border: '1px solid rgba(255,215,0,0.3)',
-  borderRadius: '40px',
-  cursor: 'pointer',
-  fontSize: '12px',
-  fontWeight: 'bold',
-  transition: 'all 0.3s ease',
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px',
-  marginRight: '8px'
 };
 
 const statusStyles = (available) => ({
@@ -168,7 +199,8 @@ const emptyStateStyles = {
 const actionCellStyles = {
   display: 'flex',
   gap: '8px',
-  alignItems: 'center'
+  alignItems: 'center',
+  flexWrap: 'wrap'
 };
 
 const colorChipStyles = {
@@ -181,7 +213,7 @@ const colorChipStyles = {
   fontSize: '12px'
 };
 
-function VehicleManagement({ vehicles, onDelete }) {
+function VehicleManagement({ vehicles, onDelete, onEditPrice, onManageColors }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
 
@@ -316,6 +348,36 @@ function VehicleManagement({ vehicles, onDelete }) {
                       >
                         <FontAwesomeIcon icon={faEye} />
                         View
+                      </button>
+                      <button 
+                        style={editButtonStyles}
+                        onClick={() => onEditPrice(vehicle.id, vehicle.price)}
+                        onMouseEnter={(e) => {
+                          e.target.style.transform = 'translateY(-2px)';
+                          e.target.style.boxShadow = '0 4px 8px rgba(255,215,0,0.3)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.target.style.transform = 'translateY(0)';
+                          e.target.style.boxShadow = '0 2px 4px rgba(255,215,0,0.2)';
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faEdit} />
+                        Edit Price
+                      </button>
+                      <button 
+                        style={manageColorsButtonStyles}
+                        onClick={() => onManageColors(vehicle)}
+                        onMouseEnter={(e) => {
+                          e.target.style.backgroundColor = 'rgba(255,215,0,0.2)';
+                          e.target.style.transform = 'translateY(-2px)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.target.style.backgroundColor = '#FEF9E6';
+                          e.target.style.transform = 'translateY(0)';
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faPalette} />
+                        Colors
                       </button>
                       <button 
                         style={deleteButtonStyles}
