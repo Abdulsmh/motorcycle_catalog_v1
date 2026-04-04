@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
-  faMotorcycle, 
-  faPalette, 
-  faBoxes, 
-  faNairaSign,
   faSignOutAlt,
   faCopy,
   faSpinner,
@@ -13,10 +9,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import AdminLogin from '../components/Admin/AdminLogin';
 import AddVehicleForm from '../components/Admin/AddVehicleForm';
-import VehicleManagement from '../components/Admin/VehicleManagement';
+import VehicleManagementTable from '../components/Admin/VehicleManagementTable';
+import DashboardStats from '../components/Admin/DashboardStats';
 import { loadMotorcycles, addMotorcycle, deleteMotorcycle, updateMotorcyclePrice, updateMotorcycleColors } from '../utils/storage';
 
-// Styles
 const containerStyles = {
   maxWidth: '1400px',
   margin: '0 auto',
@@ -63,56 +59,6 @@ const logoutButtonStyles = {
   display: 'flex',
   alignItems: 'center',
   gap: '10px'
-};
-
-const statsGridStyles = {
-  display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-  gap: '24px',
-  marginBottom: '40px'
-};
-
-const statCardStyles = {
-  backgroundColor: 'white',
-  padding: '24px',
-  borderRadius: '24px',
-  textAlign: 'center',
-  boxShadow: '0 4px 6px -2px rgba(0,0,0,0.05)',
-  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-  border: '1px solid rgba(255,215,0,0.2)',
-  position: 'relative',
-  overflow: 'hidden'
-};
-
-const statIconStyles = {
-  width: '50px',
-  height: '50px',
-  backgroundColor: '#FEF9E6',
-  borderRadius: '50%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  margin: '0 auto 16px',
-  fontSize: '24px',
-  color: '#FFD700'
-};
-
-const statNumberStyles = {
-  fontSize: '36px',
-  fontWeight: 'bold',
-  background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
-  WebkitBackgroundClip: 'text',
-  WebkitTextFillColor: 'transparent',
-  backgroundClip: 'text',
-  marginBottom: '8px'
-};
-
-const statLabelStyles = {
-  fontSize: '14px',
-  color: '#6B7280',
-  fontWeight: '500',
-  textTransform: 'uppercase',
-  letterSpacing: '0.5px'
 };
 
 const shareCardStyles = {
@@ -240,20 +186,6 @@ const mobileStyles = `
     .admin-title {
       font-size: 22px !important;
     }
-    .stats-grid {
-      gap: 16px !important;
-    }
-    .stat-card {
-      padding: 16px !important;
-    }
-    .stat-number {
-      font-size: 28px !important;
-    }
-    .stat-icon {
-      width: 40px !important;
-      height: 40px !important;
-      font-size: 20px !important;
-    }
   }
 `;
 
@@ -269,11 +201,8 @@ function AdminPage() {
     totalValue: 0
   });
   
-  // Edit Price State
   const [editingPrice, setEditingPrice] = useState(null);
   const [newPrice, setNewPrice] = useState('');
-  
-  // Manage Colors State
   const [editingColors, setEditingColors] = useState(null);
   const [tempColors, setTempColors] = useState([]);
 
@@ -382,7 +311,6 @@ function AdminPage() {
     }
   };
 
-  // Edit Price Functions
   const handleEditPrice = (id, currentPrice) => {
     setEditingPrice({ id, currentPrice });
     setNewPrice(currentPrice);
@@ -408,7 +336,6 @@ function AdminPage() {
     }
   };
 
-  // Manage Colors Functions
   const handleManageColors = (motorcycle) => {
     setEditingColors(motorcycle);
     setTempColors(JSON.parse(JSON.stringify(motorcycle.colors || [])));
@@ -448,21 +375,9 @@ function AdminPage() {
     alert('📋 Catalog link copied! Share with customers.');
   };
 
-  const formatNaira = (amount) => {
-    return new Intl.NumberFormat('en-NG', {
-      style: 'currency',
-      currency: 'NGN',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    }).format(amount);
+  const handleViewDetails = (vehicle) => {
+    alert(`🏍️ ${vehicle.name}\n\nBrand: ${vehicle.brand}\nPrice: ${new Intl.NumberFormat('en-NG').format(vehicle.price)} NGN\nColors: ${vehicle.colors?.length || 0} options\nStatus: ${vehicle.available ? 'Available' : 'Sold Out'}`);
   };
-
-  const statItems = [
-    { icon: faMotorcycle, label: 'Total Motorcycles', value: stats.totalMotorcycles, color: '#FFD700' },
-    { icon: faPalette, label: 'Color Options', value: stats.totalColors, color: '#FFA500' },
-    { icon: faBoxes, label: 'Total Units', value: stats.totalStock, color: '#065F46' },
-    { icon: faNairaSign, label: 'Inventory Value', value: formatNaira(stats.totalValue), color: '#FFD700' }
-  ];
 
   if (!isLoggedIn) {
     return <AdminLogin onLogin={setIsLoggedIn} />;
@@ -472,7 +387,6 @@ function AdminPage() {
     <>
       <style>{mobileStyles}</style>
       <div style={containerStyles}>
-        {/* Header */}
         <div className="admin-header" style={headerStyles}>
           <h1 className="admin-title" style={titleStyles}>
             <FontAwesomeIcon icon={faCrown} style={{ color: '#FFD700' }} />
@@ -495,7 +409,6 @@ function AdminPage() {
           </button>
         </div>
         
-        {/* Error Display */}
         {error && (
           <div style={errorStyles}>
             <span>
@@ -517,32 +430,8 @@ function AdminPage() {
           </div>
         )}
         
-        {/* Stats Section */}
-        <div className="stats-grid" style={statsGridStyles}>
-          {statItems.map((item, index) => (
-            <div 
-              key={index}
-              className="stat-card" 
-              style={statCardStyles}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-8px)';
-                e.currentTarget.style.boxShadow = '0 20px 25px -12px rgba(0,0,0,0.15)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 6px -2px rgba(0,0,0,0.05)';
-              }}
-            >
-              <div className="stat-icon" style={statIconStyles}>
-                <FontAwesomeIcon icon={item.icon} style={{ color: item.color }} />
-              </div>
-              <div className="stat-number" style={statNumberStyles}>{item.value}</div>
-              <div style={statLabelStyles}>{item.label}</div>
-            </div>
-          ))}
-        </div>
+        <DashboardStats stats={stats} />
         
-        {/* Share Link Card */}
         <div style={shareCardStyles}>
           <div style={{ fontSize: '48px', marginBottom: '12px' }}>
             <FontAwesomeIcon icon={faCopy} style={{ color: '#FFD700' }} />
@@ -570,7 +459,6 @@ function AdminPage() {
           </button>
         </div>
         
-        {/* Loading Indicator */}
         {loading && (
           <div style={loadingStyles}>
             <FontAwesomeIcon icon={faSpinner} spin style={{ fontSize: '32px', color: '#FFD700', marginBottom: '16px' }} />
@@ -578,15 +466,14 @@ function AdminPage() {
           </div>
         )}
         
-        {/* Add Vehicle Form */}
         <AddVehicleForm onAdd={handleAddMotorcycle} />
         
-        {/* Vehicle Management Table */}
-        <VehicleManagement 
+        <VehicleManagementTable 
           vehicles={motorcycles} 
-          onDelete={handleDeleteMotorcycle}
           onEditPrice={handleEditPrice}
           onManageColors={handleManageColors}
+          onDelete={handleDeleteMotorcycle}
+          onViewDetails={handleViewDetails}
         />
 
         {/* Edit Price Modal */}

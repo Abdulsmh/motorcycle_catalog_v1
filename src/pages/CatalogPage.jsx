@@ -11,7 +11,6 @@ import {
   faClock,
   faTag,
   faArrowRight,
-  faFilter,
   faChevronDown,
   faChevronUp
 } from '@fortawesome/free-solid-svg-icons';
@@ -26,7 +25,6 @@ const containerStyles = {
   padding: '0 16px'
 };
 
-// Hero Section with Motorcycle Image Background
 const heroSectionStyles = {
   position: 'relative',
   marginBottom: '40px',
@@ -110,7 +108,6 @@ const featuredBadgeStyles = {
   marginBottom: '20px'
 };
 
-// Search Section - Mobile Optimized
 const searchSectionStyles = {
   display: 'flex',
   flexDirection: 'column',
@@ -293,15 +290,33 @@ const mobileStyles = `
     50% { transform: translateY(-5px); }
   }
   
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
     .hero-title {
-      font-size: 28px !important;
+      font-size: 32px !important;
     }
     .hero-content {
       padding: 40px 20px !important;
     }
-    .filter-chips {
-      flex-wrap: wrap !important;
+    .hero-section {
+      min-height: 350px !important;
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .hero-title {
+      font-size: 28px !important;
+    }
+    .search-section {
+      flex-direction: column !important;
+      padding: 16px !important;
+      border-radius: 24px !important;
+    }
+    .search-wrapper {
+      width: 100% !important;
+    }
+    .filter-wrapper {
+      width: 100% !important;
+      justify-content: center !important;
     }
     .filter-chip {
       font-size: 12px !important;
@@ -463,7 +478,6 @@ function CatalogPage({ language }) {
     <>
       <style>{mobileStyles}</style>
       <div style={containerStyles}>
-        {/* Hero Section with Motorcycle Image */}
         <div style={heroSectionStyles}>
           <div style={heroOverlayStyles} />
           <div className="hero-content" style={heroContentStyles}>
@@ -494,7 +508,6 @@ function CatalogPage({ language }) {
           </div>
         </div>
 
-        {/* Search and Filter Section */}
         <div id="catalog-section" style={searchSectionStyles}>
           <div style={searchWrapperStyles}>
             <div style={searchIconStyles}>
@@ -544,7 +557,6 @@ function CatalogPage({ language }) {
               ))}
             </div>
             
-            {/* Sort Button */}
             <div style={{ position: 'relative' }}>
               <button
                 className="sort-button"
@@ -605,7 +617,6 @@ function CatalogPage({ language }) {
           </div>
         </div>
 
-        {/* Results Info */}
         <div style={resultsInfoStyles}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <FontAwesomeIcon icon={faMotorcycle} style={{ color: '#FFD700' }} />
@@ -630,7 +641,6 @@ function CatalogPage({ language }) {
           )}
         </div>
 
-        {/* Empty State */}
         {filteredMotorcycles.length === 0 ? (
           <div style={emptyStyles}>
             <div style={emptyIconStyles}>

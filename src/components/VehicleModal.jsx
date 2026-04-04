@@ -14,7 +14,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 
-// Motorcycle placeholder image (working URL)
 const MOTORCYCLE_PLACEHOLDER = 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=400&h=300&fit=crop';
 
 const formatNaira = (price) => {
@@ -39,7 +38,7 @@ const modalOverlayStyles = {
   alignItems: 'center',
   justifyContent: 'center',
   zIndex: 1000,
-  padding: '20px',
+  padding: '16px',
   animation: 'fadeIn 0.3s ease'
 };
 
@@ -303,6 +302,15 @@ const mobileStyles = `
     }
   }
   
+  @media (max-width: 640px) {
+    .modal-body {
+      padding: 16px !important;
+    }
+    .modal-header {
+      padding: 12px 16px !important;
+    }
+  }
+  
   @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -423,7 +431,6 @@ function VehicleModal({ vehicle, isOpen, onClose, language }) {
           
           <div className="modal-body" style={bodyStyles}>
             <div className="modal-two-column" style={twoColumnStyles}>
-              {/* Left column - Images */}
               <div style={imageSectionStyles}>
                 <img 
                   className="modal-main-image"
@@ -462,9 +469,7 @@ function VehicleModal({ vehicle, isOpen, onClose, language }) {
                 )}
               </div>
 
-              {/* Right column - Details */}
               <div>
-                {/* Stock Badge */}
                 <div style={{ marginBottom: '20px' }}>
                   <span style={badgeStyles}>
                     <FontAwesomeIcon icon={faCheckCircle} />
@@ -474,7 +479,6 @@ function VehicleModal({ vehicle, isOpen, onClose, language }) {
 
                 <p style={descriptionStyles}>{description}</p>
                 
-                {/* Specifications */}
                 <div style={{ marginBottom: '24px' }}>
                   <h4 style={{ fontWeight: 'bold', marginBottom: '12px', color: '#1F2937' }}>
                     <FontAwesomeIcon icon={faMotorcycle} style={{ color: '#FFD700', marginRight: '8px' }} />
